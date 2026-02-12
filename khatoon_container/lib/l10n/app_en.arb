@@ -1,0 +1,239 @@
+{
+  "@@locale" : "en",
+
+  "appName" : "Demo app",
+
+  "pageLoginUsername" : "Your username",
+  "@pageLoginUsername" : {},
+
+  "pageLoginPassword" : "Your password",
+  "@pageLoginPassword" : {},
+
+  "pageHomeTitle" : "Welcome {firstName}",
+  "@pageHomeTitle" : {
+    "description" : "Welcome message on the Home screen",
+    "placeholders": {
+      "firstName": {}
+    }
+  },
+
+  "pageHomeInboxCount" : "{count, plural, zero{You have no new messages} one{You have 1 new message} other{You have {count} new messages}}",
+  "@pageHomeInboxCount" : {
+    "description" : "New messages count on the Home screen",
+    "placeholders": {
+      "count": {}
+    }
+  },
+
+  "pageHomeBirthday": "{sex, select, male{His birthday} female{Her birthday} other{Their birthday}}",
+  "@pageHomeBirthday": {
+    "description": "Birthday message on the Home screen",
+    "placeholders": {
+      "sex": {}
+    }
+  },
+
+  "commonVehicleType": "{vehicleType, select, sedan{Sedan} cabriolet{Solid roof cabriolet} truck{16 wheel truck} other{Other}}",
+  "@commonVehicleType": {
+    "description": "Vehicle type",
+    "placeholders": {
+      "vehicleType": {}
+    }
+  },
+
+  "pageHomeBalance" : "Your balance is {amount} on {date}",
+  "@pageHomeBalance" : {
+    "placeholders": {
+      "amount": {
+        "type": "double",
+        "format": "currency",
+        "example": "$1000.00",
+        "description": "Account balance",
+        "optionalParameters": {
+          "decimalDigits": 2,
+          "name": "USD",
+          "symbol": "$",
+          "customPattern": "¤#0.00"
+        }
+      },
+      "date": {
+        "type": "DateTime",
+        "format": "yMd",
+        "example": "11/10/2021",
+        "description": "Balance date"
+      }
+    }
+  },
+
+  "appTitle": "Accounting App",
+  "common_ok": "OK",
+  "common_select": "Select",
+  "common_cancel": "Cancel",
+  "common_yes": "Yes",
+  "common_no": "No",
+  "common_close": "Close",
+  "common_save": "Save",
+  "common_edit": "Edit",
+  "common_delete": "Delete",
+  "common_search": "Search",
+  "common_clear": "Clear",
+  "common_loading": "Loading...",
+  "common_error": "Error",
+  "common_success": "Operation completed successfully",
+  "common_date_format": "dd/MM/yyyy",
+  "common_form_submit": "Form Submitted",
+
+  "componentsMessagesInvoiceNumberPrefix": "Invoice number should start with {prefix}",
+  "@componentsMessagesInvoiceNumberPrefix": {
+    "description": "The required prefix for invoice numbers"
+  },
+
+  "auth_login": "Login",
+  "auth_logout": "Logout",
+  "auth_username": "Username",
+  "auth_password": "Password",
+  "auth_rememberMe": "Remember me",
+  "auth_invalidCredentials": "Invalid username or password",
+  "dashboard": "Dashboard",
+  "dashboard_totalBalance": "Total Balance",
+  "dashboard_todayIncome": "Today's Income",
+  "dashboard_todayExpense": "Today's Expense",
+  "dashboard_reports": "Reports",
+  "profile_account": "Profile Account",
+  "accounting_accounts": "Accounts",
+  "accounting_account": "Account",
+  "accounting_newAccount": "New Account",
+  "accounting_accountName": "Account Name",
+  "accounting_accountCode": "Account Code",
+  "accounting_accountType": "Account Type",
+  "accounting_balance": "Balance",
+  "accounting_openingBalance": "Opening Balance",
+  "voucher_vouchers": "Vouchers",
+  "voucher_voucher": "Voucher",
+  "voucher_voucher_detail": "Voucher Detail",
+  "voucher_newVoucher": "New Voucher",
+  "voucher_voucherNumber": "Voucher Number",
+  "voucher_voucherDate": "Voucher Date",
+  "voucher_description": "Description",
+  "voucher_debit": "Debit",
+  "voucher_credit": "Credit",
+  "voucher_totalDebit": "Total Debit",
+  "voucher_totalCredit": "Total Credit",
+  "voucher_notBalanced": "Voucher is not balanced",
+  "customer_customers": "Customers",
+  "customer_customer": "Customer",
+  "customer_newCustomer": "New Customer",
+  "customer_name": "Name",
+  "customer_mobile": "Mobile",
+  "customer_address": "Address",
+  "customer_nationalId": "National ID",
+  "customer_balance": "Account Balance",
+  "invoice_invoices": "Invoices",
+  "invoice_invoice": "Invoice",
+  "invoice_sale_invoice": "Sale Invoice",
+  "invoice_buy_invoice": "Buy Invoice",
+  "invoice_newInvoice": "New Invoice",
+  "invoice_invoiceNumber": "Invoice Number",
+  "invoice_invoiceDate": "Invoice Date",
+  "invoice_customer": "Customer",
+  "invoice_saler": "Saler",
+  "invoice_customer_info": "Customer Info",
+  "invoice_totalAmount": "Total Amount",
+  "invoice_discount": "Discount",
+  "invoice_discount_code": "Discount Code",
+  "invoice_tax": "Tax",
+  "invoice_payableAmount": "Payable Amount",
+  "invoice_buy_invoices": "Buy Invoices",
+  "invoice_sale_invoices": "Sale Invoices",
+  "invoice_state_status": "Invoice Status",
+  "invoice_state_common_selectionMsg": "Please select a status",
+  "invoice_state_completed": "Completed",
+  "invoice_state_pending": "Pending ...",
+  "invoice_state_canceled": "Canceled",
+  "invoice_state_refunded": "Refunded",
+  "invoice_common_empty": "No invoices found",
+  "product_products": "Products",
+  "product_product": "Product",
+  "product_newProduct": "New Product",
+  "product_name": "Product Name",
+  "product_code": "Product Code",
+  "product_unit": "Unit",
+  "product_price": "Price",
+  "product_stock": "Stock",
+  "payment_payments": "Payments",
+  "payment_receive": "Receive",
+  "payment_pay": "Pay",
+  "payment_amount": "Amount",
+  "payment_date": "Payment Date",
+  "payment_method": "Payment Method",
+  "payment_cash": "Cash",
+  "payment_card": "Card",
+  "payment_transfer": "Bank Transfer",
+  "report_reports": "Reports",
+  "report_profitLoss": "Profit & Loss",
+  "report_balanceSheet": "Balance Sheet",
+  "report_turnover": "Account Turnover",
+  "report_fromDate": "From Date",
+  "report_toDate": "To Date",
+  "settings_settings": "Settings",
+  "settings_language": "Language",
+  "settings_theme": "Theme",
+  "settings_darkMode": "Dark Mode",
+  "settings_about": "About",
+  "error_requiredField": "This field is required",
+  "error_invalidNumber": "Invalid number",
+  "error_network": "Network error",
+  "error_unknown": "Unknown error",
+  "invoice_number": "Please enter the invoice number",
+  "voucher_number": "Please enter the voucher number",
+  "payment_number": "Please enter the payment number",
+  "customer_number": "Please enter the customer number",
+  "user_number": "Please enter the user number",
+  "submit_sale_invoice": "Submit Sale Invoice",
+  "submit_buy_invoice": "Submit Buy Invoice",
+  "submit_voucher": "Submit Voucher",
+  "submit_payment": "Submit Payment",
+  "submit_customer": "Submit Customer",
+  "submit_product": "Submit Product",
+  "submit_account": "Submit Account",
+  "submit_user": "Submit User",
+  "update_sale_invoice": "Update Sale Invoice",
+  "update_buy_invoice": "Update Buy Invoice",
+  "update_voucher": "Update Voucher",
+  "update_payment": "Update Payment",
+  "update_customer": "Update Customer",
+  "update_product": "Update Product",
+  "update_account": "Update Account",
+  "update_user": "Update User",
+  "delete_sale_invoice": "Delete Sale Invoice",
+  "delete_buy_invoice": "Delete Buy Invoice",
+  "delete_voucher": "Delete Voucher",
+  "delete_payment": "Delete Payment",
+  "delete_customer": "Delete Customer",
+  "delete_product": "Delete Product",
+  "delete_account": "Delete Account",
+  "delete_user": "Delete User",
+  "submit_success": "Submission completed successfully",
+  "submit_error": "Submission failed",
+  "update_success": "Update completed successfully",
+  "update_error": "Update failed",
+  "delete_success": "Deletion completed successfully",
+  "delete_error": "Deletion failed",
+
+  "validation_enterTotalAmount": "Please enter total amount",
+  "@validation_enterTotalAmount": {
+    "description": "Error message when the total amount field is empty"
+  },
+
+  "validation_enterValidNumber": "Please enter a valid number",
+  "@validation_enterValidNumber": {
+    "description": "Error message when the entered value is not a valid number"
+  },
+
+  "validation_amountGreaterThanZero": "Amount must be greater than 0",
+  "@validation_amountGreaterThanZero": {
+    "description": "Error message when the entered amount is less than or equal to zero"
+  }
+
+}
+

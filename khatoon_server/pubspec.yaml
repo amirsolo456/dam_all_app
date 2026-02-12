@@ -1,0 +1,32 @@
+name: khatoon_server
+description: A new Dart Frog application
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: '>=3.5.0 <4.0.0'
+  flutter: ^3.27.0
+
+dependencies:
+  dart_jsonwebtoken: ^2.3.2
+  uuid: ^3.0.7
+#  http: ^1.1.0
+#  crypto: ^3.0.2
+  dart_frog: ^1.1.0
+  json_annotation: ^4.7.0
+  khatoon_shared:
+    path: ../khatoon_shared
+#  postgres: ^3.5.9
+#  build_web_compilers: ^4.3.2
+#  dotenv: ^4.2.0
+#  worker_pool: any
+  mssql_connection: ^3.0.0   # یا آخرین نسخه
+  sqflite: ^2.2.0
+  path: ^1.8.3
+  mysql_client: ^0.0.27
+
+  crypto: any
+dev_dependencies:
+  dart_frog_lint: ^0.1.2
+  mocktail: ^1.0.3
+  test: ^1.25.5

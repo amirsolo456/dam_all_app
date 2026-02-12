@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<InvariantGlobalization>falses</InvariantGlobalization>
+		<PublishAot>false</PublishAot>
+		<PublishTrimmed>false</PublishTrimmed>
+		<PublishSelfContained>false</PublishSelfContained>
+		<UserSecretsId>fc6ef72c-753a-4886-bddf-a1eec808bd0d</UserSecretsId>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn);1591</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Controller\**" />
+	  <Compile Remove="View\**" />
+	  <Content Remove="Controller\**" />
+	  <Content Remove="View\**" />
+	  <EmbeddedResource Remove="Controller\**" />
+	  <EmbeddedResource Remove="View\**" />
+	  <None Remove="Controller\**" />
+	  <None Remove="View\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="12.0.1" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+ 
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0">
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		  <PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0">
+			<PrivateAssets>all</PrivateAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="11.0.0-preview.1.26104.118" />
+		<PackageReference Include="NSwag.AspNetCore" Version="14.6.3" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Server\Model\" />
+	  <Folder Include="Server\View\" />
+	</ItemGroup>
+
+</Project>

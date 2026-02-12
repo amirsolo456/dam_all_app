@@ -1,0 +1,22 @@
+# ignore everything by default
+/*
+
+# but keep these
+!.gitignore
+!README.md
+!pubspec.yaml
+!lib/
+!assets/
+
+# ignore common generated and IDE files nonetheless (safety)
+.dart_tool/
+.build/
+build/
+.packages
+.pub/
+.flutter-plugins
+.flutter-plugins-dependencies
+.idea/
+*.iml
+.vscode/
+pubspec.lock
