@@ -21,10 +21,23 @@ public class MappingProfiles : Profile
         CreateCrudMap<Product, ProductDto, CreateProductDto, UpdateProductDto>();
         CreateCrudMap<Invoice, InvoiceDto, CreateInvoiceDto, UpdateInvoiceDto>();
         CreateCrudMap<InvoiceLine, InvoiceLineDto, CreateInvoiceLineDto, UpdateInvoiceLineDto>();
+        CreateCrudMap<Animal, AnimalDto, CreateAnimalDto, UpdateAnimalDto>();
         CreateCrudMap<Payment, PaymentDto, CreatePaymentDto, UpdatePaymentDto>();
         CreateCrudMap<PaymentAllocation, PaymentAllocationDto, CreatePaymentAllocationDto, UpdatePaymentAllocationDto>();
         CreateCrudMap<Expense, ExpenseDto, CreateExpenseDto, UpdateExpenseDto>();
         CreateCrudMap<AppSetting, AppSettingDto, CreateAppSettingDto, UpdateAppSettingDto>();
+        CreateCrudMap<SalaryPayment, SalaryPaymentDto, CreateSalaryPaymentDto, UpdateSalaryPaymentDto>();
+        CreateCrudMap<CommissionRecord, CommissionRecordDto, CreateCommissionRecordDto, UpdateCommissionRecordDto>();
+        CreateCrudMap<Item, ItemDto, CreateItemDto, UpdateItemDto>();
+        CreateCrudMap<SyncQueue, SyncQueueDto, CreateSyncQueueDto, UpdateSyncQueueDto>();
+        CreateCrudMap<Tombstone, TombstoneDto, CreateTombstoneDto, CreateTombstoneDto>(); // Tombstone usually doesn't have update
+        CreateCrudMap<Health, HealthDto, CreateHealthDto, UpdateHealthDto>();
+        CreateCrudMap<Shipping, ShippingDto, CreateShippingDto, UpdateShippingDto>();
+        CreateCrudMap<Warranty, WarrantyDto, CreateWarrantyDto, UpdateWarrantyDto>();
+        CreateCrudMap<Pricing, PricingDto, CreatePricingDto, UpdatePricingDto>();
+        CreateCrudMap<AppEnum, AppEnumDto, CreateAppEnumDto, UpdateAppEnumDto>();
+        CreateCrudMap<Bank, BankDto, CreateBankDto, UpdateBankDto>();
+        CreateCrudMap<AccountSetting, AccountSettingDto, CreateAccountSettingDto, UpdateAccountSettingDto>();
     }
 
     /// <summary>

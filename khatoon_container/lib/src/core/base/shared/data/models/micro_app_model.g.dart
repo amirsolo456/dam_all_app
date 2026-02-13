@@ -6,11 +6,12 @@ part of 'micro_app_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-MicroAppModel _$MicroAppModelFromJson(Map json) => MicroAppModel(
-  bookmarked: json['bookmarked'] as bool,
-  userId: (json['userId'] as num).toInt(),
-  microAppsName: $enumDecode(_$MicroAppsNameEnumMap, json['microAppsName']),
-);
+MicroAppModel _$MicroAppModelFromJson(Map<String, dynamic> json) =>
+    MicroAppModel(
+      bookmarked: json['bookmarked'] as bool,
+      userId: (json['userId'] as num).toInt(),
+      microAppsName: $enumDecode(_$MicroAppsNameEnumMap, json['microAppsName']),
+    );
 
 Map<String, dynamic> _$MicroAppModelToJson(MicroAppModel instance) =>
     <String, dynamic>{

@@ -6,7 +6,7 @@ part of 'filter_info.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FilterInfo _$FilterInfoFromJson(Map json) => FilterInfo(
+FilterInfo _$FilterInfoFromJson(Map<String, dynamic> json) => FilterInfo(
   colName: json['colName'] as String?,
   filterType: json['filterType'] as String?,
   value: json['value'] as String?,

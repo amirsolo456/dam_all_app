@@ -8,7 +8,7 @@ import 'package:khatoon_shared/index.dart';
 
 class Animal extends Equatable {
   // شناسایی
-  final String id;
+  final int id;
   final String tagNumber;         // شماره گوشواره
   final String? name;
   final AnimalType type;

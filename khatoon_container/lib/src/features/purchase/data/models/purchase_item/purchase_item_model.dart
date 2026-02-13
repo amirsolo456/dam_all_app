@@ -10,14 +10,18 @@ class PurchaseItemModel extends InvoiceLine {
 
   PurchaseItemModel({
     required super.id,
-    // required super.name,
-    // required super.quantity,
-    // required super.price,
     required super.invoiceId,
-    required super.productId,
-    required super.qty,
+    super.productId,
+    super.description,
+    required super.quantity,
     required super.unitPrice,
     required super.lineTotal,
+    super.partyId,
+    super.sellerEmployeeId,
+    required super.version,
+    required super.isDeleted,
+    required super.createdAt,
+    required super.updatedAt,
   });
 
   factory PurchaseItemModel.fromJson(Map<String, dynamic> json) =>

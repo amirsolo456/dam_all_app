@@ -38,4 +38,4 @@ export 'package:khatoon_container/src/core/storage/services/api_service.dart';
 export 'package:khatoon_container/src/core/storage/data/db/db.dart';
 export 'package:khatoon_container/src/core/storage/data/sync/sync_manager.dart';
 export 'package:khatoon_container/src/core/storage/data/sync/sync_queue_dao.dart';
-export 'package:drift/drift.dart' show drift;
+export 'package:drift/drift.dart';

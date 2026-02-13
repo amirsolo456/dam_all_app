@@ -6,21 +6,22 @@ part of 'livestock.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-LivestockSummary _$LivestockSummaryFromJson(Map json) => LivestockSummary(
-  id: json['id'] as String,
-  tagNumber: json['tagNumber'] as String,
-  name: json['name'] as String?,
-  type: $enumDecode(_$AnimalTypeEnumMap, json['type']),
-  breed: json['breed'] as String?,
-  imageUrl: json['imageUrl'] as String?,
-  healthStatus: $enumDecode(_$HealthStatusEnumMap, json['healthStatus']),
-  reproductionStatus: $enumDecode(
-    _$ReproductionStatusEnumMap,
-    json['reproductionStatus'],
-  ),
-  lastCheckupDate: (json['lastCheckupDate'] as num?)?.toInt(),
-  location: json['location'] as String?,
-);
+LivestockSummary _$LivestockSummaryFromJson(Map<String, dynamic> json) =>
+    LivestockSummary(
+      id: json['id'] as String,
+      tagNumber: json['tagNumber'] as String,
+      name: json['name'] as String?,
+      type: $enumDecode(_$AnimalTypeEnumMap, json['type']),
+      breed: json['breed'] as String?,
+      imageUrl: json['imageUrl'] as String?,
+      healthStatus: $enumDecode(_$HealthStatusEnumMap, json['healthStatus']),
+      reproductionStatus: $enumDecode(
+        _$ReproductionStatusEnumMap,
+        json['reproductionStatus'],
+      ),
+      lastCheckupDate: (json['lastCheckupDate'] as num?)?.toInt(),
+      location: json['location'] as String?,
+    );
 
 Map<String, dynamic> _$LivestockSummaryToJson(LivestockSummary instance) =>
     <String, dynamic>{

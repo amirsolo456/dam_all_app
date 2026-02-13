@@ -11,7 +11,7 @@ class CreatePurchaseUseCase {
 
   const CreatePurchaseUseCase({required this.repository});
 
-  Future<Invoice> execute(PurchaseInvoiceModel invoice) async {
+  Future<PurchaseInvoiceModel> execute(PurchaseInvoiceModel invoice) async {
     return await repository.createPurchase(invoice);
   }
 }
@@ -31,8 +31,8 @@ class GetPurchasesByIdUseCase {
 
   const GetPurchasesByIdUseCase({required this.repository});
 
-  Future<List<PurchaseInvoiceModel>> execute(int purchasesId) async {
-    return await repository.getPurchases();
+  Future<PurchaseInvoiceModel> execute(int purchasesId) async {
+    return await repository.getInvoiceById(purchasesId);
   }
 }
 
@@ -41,8 +41,8 @@ class DeletePurchaseUseCase {
 
   const DeletePurchaseUseCase({required this.repository});
 
-  Future<void> execute(PurchaseInvoiceModel purchase) async {
-    return await repository.deletePurchase(purchase);
+  Future<void> execute(int id) async {
+    return await repository.deleteInvoice(id);
   }
 }
 
@@ -51,8 +51,8 @@ class UpdatePurchaseUseCase {
 
   const UpdatePurchaseUseCase({required this.repository});
 
-  Future<void> execute(PurchaseInvoiceModel purchase) {
-    return repository.updatePurchase(purchase);
+  Future<PurchaseInvoiceModel> execute(PurchaseInvoiceModel invoice) {
+    return repository.updatePurchase(invoice);
   }
 }
 
