@@ -301,6 +301,66 @@ namespace khatoon_server_dotnet.Model.DTOs
 
 
     // ================ Party ================
+    // ================ Animal ================
+    public class AnimalDto : IHasId
+    {
+        public int Id { get; set; }
+        public string TagNumber { get; set; } = string.Empty;
+        public string? Name { get; set; }
+        public string Type { get; set; } = string.Empty;
+        public string? Breed { get; set; }
+        public string Gender { get; set; } = string.Empty;
+        public DateTime? BirthDate { get; set; }
+        public DateTime? PurchaseDate { get; set; }
+        public decimal? PurchasePrice { get; set; }
+        public string? PurchaseSource { get; set; }
+        public decimal? CurrentWeight { get; set; }
+        public string? Color { get; set; }
+        public string? HealthStatus { get; set; }
+        public string? ReproductionStatus { get; set; }
+        public string? Notes { get; set; }
+        public int Version { get; set; }
+        public bool IsDeleted { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+    }
+
+    public class CreateAnimalDto
+    {
+        public string TagNumber { get; set; } = string.Empty;
+        public string? Name { get; set; }
+        public string Type { get; set; } = string.Empty;
+        public string? Breed { get; set; }
+        public string Gender { get; set; } = string.Empty;
+        public DateTime? BirthDate { get; set; }
+        public DateTime? PurchaseDate { get; set; }
+        public decimal? PurchasePrice { get; set; }
+        public string? PurchaseSource { get; set; }
+        public decimal? CurrentWeight { get; set; }
+        public string? Color { get; set; }
+        public string? HealthStatus { get; set; }
+        public string? ReproductionStatus { get; set; }
+        public string? Notes { get; set; }
+    }
+
+    public class UpdateAnimalDto
+    {
+        public string? TagNumber { get; set; }
+        public string? Name { get; set; }
+        public string? Type { get; set; }
+        public string? Breed { get; set; }
+        public string? Gender { get; set; }
+        public DateTime? BirthDate { get; set; }
+        public DateTime? PurchaseDate { get; set; }
+        public decimal? PurchasePrice { get; set; }
+        public string? PurchaseSource { get; set; }
+        public decimal? CurrentWeight { get; set; }
+        public string? Color { get; set; }
+        public string? HealthStatus { get; set; }
+        public string? ReproductionStatus { get; set; }
+        public string? Notes { get; set; }
+    }
+
     public class PartyDto : IHasId
     {
         public int Id { get; set; }

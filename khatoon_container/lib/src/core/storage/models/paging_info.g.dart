@@ -6,7 +6,7 @@ part of 'paging_info.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PagingInfo _$PagingInfoFromJson(Map json) => PagingInfo(
+PagingInfo _$PagingInfoFromJson(Map<String, dynamic> json) => PagingInfo(
   onlyTotalCount: json['onlyTotalCount'] as bool?,
   pageNumber: (json['pageNumber'] as num?)?.toInt(),
   pageRecordCount: (json['pageRecordCount'] as num?)?.toInt(),

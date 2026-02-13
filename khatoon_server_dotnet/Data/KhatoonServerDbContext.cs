@@ -8,12 +8,13 @@ using System.IO;
 namespace khatoon_server_dotnet.Data
 {
 #pragma warning disable CS1591
-    public class  KhatoonServerDbContext : DbContext
+    public class KhatoonServerDbContext : DbContext
     {
         public KhatoonServerDbContext(DbContextOptions<KhatoonServerDbContext> options) : base(options) { }
         public DbSet<Party> Parties { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Animal> Animals { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<InvoiceLine> InvoiceLines { get; set; }
         public DbSet<Payment> Payments { get; set; }
@@ -53,6 +54,7 @@ namespace khatoon_server_dotnet.Data
             modelBuilder.Entity<Party>().HasQueryFilter(p => !p.IsDeleted);
             modelBuilder.Entity<Employee>().HasQueryFilter(e => !e.IsDeleted);
             modelBuilder.Entity<Product>().HasQueryFilter(p => !p.IsDeleted);
+            modelBuilder.Entity<Animal>().HasQueryFilter(a => !a.IsDeleted);
             modelBuilder.Entity<Invoice>().HasQueryFilter(i => !i.IsDeleted);
             modelBuilder.Entity<InvoiceLine>().HasQueryFilter(il => !il.IsDeleted);
             modelBuilder.Entity<Payment>().HasQueryFilter(p => !p.IsDeleted);

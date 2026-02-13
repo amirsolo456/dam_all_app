@@ -3,83 +3,27 @@ import 'package:khatoon_container/src/core/storage/services/errors/exceptions.da
 import 'package:khatoon_container/src/features/purchase/data/models/purchase_invoice/purchase_invoice_model.dart';
 import 'package:khatoon_container/src/features/purchase/data/models/payment/payment_model.dart';
 import 'package:khatoon_container/src/features/purchase/data/models/purchase_item/purchase_item_model.dart';
+import 'package:khatoon_shared/index.dart';
 
 abstract class IPurchaseRemoteDataSource {
   Future<List<PurchaseInvoiceModel>> getPurchases();
-
-  Future<PurchaseInvoiceModel> getPurchaseInvoicesByPurchaseId(int purchaseId);
+  Future<PurchaseInvoiceModel> getInvoiceById(int id);
+  Future<PurchaseInvoiceModel> createPurchase(PurchaseInvoiceModel invoice);
+  Future<PurchaseInvoiceModel> updatePurchase(PurchaseInvoiceModel invoice);
+  Future<void> deleteInvoice(int id);
 
   Future<List<PurchaseItemModel>> getPurchaseItemsByPurchaseId(int purchaseId);
-
-  // Future<List<OrderModel>> getOrdersByPurchaseId(int orderId);
-
-  Future<List<PaymentModel>> getPaymentsByPurchaseId(int purchaseId);
-
-  // Future<List<DeliveryModel>> getDeliveriesByPurchaseId(int purchaseId);
-
-  Future<void> createPurchase(PurchaseInvoiceModel purchase);
-
-  Future<void> createPurchaseItem(
-    PurchaseInvoiceModel purchase,
-    PurchaseItemModel purchaseItem,
-  );
-
-  // Future<void> createOrders(
-  //   PurchaseInvoiceModel purchase,
-  //   List<OrderModel> order,
-  // );
-
-  // Future<void> createOrder(PurchaseInvoiceModel purchase, OrderModel order);
-
-  Future<void> createPayment(
-    PurchaseInvoiceModel purchase,
-    PaymentModel payment,
-  );
-
-  Future<void> createPayments(
-    PurchaseInvoiceModel purchase,
-    List<PaymentModel> payments,
-  );
-  //
-  // Future<void> createDelivery(
-  //   PurchaseInvoiceModel purchase,
-  //   DeliveryModel delivery,
-  // );
-
-  // Future<void> createDeliveries(
-  //   PurchaseInvoiceModel purchaseId,
-  //   List<DeliveryModel> delivery,
-  // );
-
-  Future<void> createItem(int purchaseId, PurchaseItemModel item);
-
-  Future<void> updatePurchase(PurchaseInvoiceModel purchase);
-
-  Future<void> updatePurchaseItem(PurchaseItemModel purchaseItem);
-
-  // Future<void> updateOrder(OrderModel order);
-
-  Future<void> updatePayment(PaymentModel payment);
-  //
-  // Future<void> updateDelivery(DeliveryModel delivery);
-
-  Future<void> deletePurchase(PurchaseInvoiceModel purchase);
-
-  Future<void> deletePurchaseItem(PurchaseItemModel purchaseItem);
-
+  Future<void> createPurchaseItem(PurchaseInvoiceModel purchase, PurchaseItemModel item);
+  Future<void> updatePurchaseItem(PurchaseItemModel item);
+  Future<void> deletePurchaseItem(PurchaseItemModel item);
   Future<void> deletePurchaseItemsById(int purchaseId);
 
+  Future<List<PaymentModel>> getPaymentsByPurchaseId(int purchaseId);
+  Future<void> createPayment(PurchaseInvoiceModel purchase, PaymentModel payment);
+  Future<void> createPayments(PurchaseInvoiceModel purchase, List<PaymentModel> payments);
+  Future<void> updatePayment(PaymentModel payment);
   Future<void> deletePayment(PaymentModel payment);
-
   Future<void> deletePaymentsById(int purchaseId);
-
-  // Future<void> deleteOrder(OrderModel order);
-
-  Future<void> deleteOrdersById(int purchaseId);
-
-  Future<void> deleteDeliveriesById(int purchaseId);
-
-  // Future<void> deleteDelivery(DeliveryModel delivery);
 }
 
 class PurchaseRemoteDataSource implements IPurchaseRemoteDataSource {
@@ -90,288 +34,119 @@ class PurchaseRemoteDataSource implements IPurchaseRemoteDataSource {
   @override
   Future<List<PurchaseInvoiceModel>> getPurchases() async {
     try {
-      final Response<dynamic> response = await dioClient.get('/purchases');
+      final Response<dynamic> response = await dioClient.get('/Invoices');
       final List<dynamic> data = response.data;
-      return data.map((dynamic json) => PurchaseInvoiceModel.fromJson(json)).toList();
+      return data.map((dynamic json) => PurchaseInvoiceModel.fromJson(json as Map<String, dynamic>)).toList();
     } on DioException catch (e) {
-      throw ServerException(message: e.message ?? 'خطا در دریافت داده‌ها');
+      throw ServerException(message: e.message ?? 'Error fetching invoices');
     }
   }
 
   @override
-  Future<PurchaseInvoiceModel> createPurchase(
-    PurchaseInvoiceModel purchase,
-  ) async {
+  Future<PurchaseInvoiceModel> createPurchase(PurchaseInvoiceModel invoice) async {
     try {
       final Response<dynamic> response = await dioClient.post(
-        '/purchases',
-        data: purchase.toJson(),
+        '/Invoices',
+        data: invoice.toJson(),
       );
-      return PurchaseInvoiceModel.fromJson(response.data);
+      return PurchaseInvoiceModel.fromJson(response.data as Map<String, dynamic>);
     } on DioException catch (e) {
-      throw ServerException(message: e.message ?? 'خطا در ایجاد فاکتور خرید');
+      throw ServerException(message: e.message ?? 'Error creating invoice');
     }
   }
 
   @override
-  Future<PurchaseInvoiceModel> updatePurchase(
-    PurchaseInvoiceModel purchase,
-  ) async {
+  Future<PurchaseInvoiceModel> updatePurchase(PurchaseInvoiceModel invoice) async {
     try {
       final Response<dynamic> response = await dioClient.put(
-        '/purchases/${purchase.id}',
-        data: purchase.toJson(),
+        '/Invoices/${invoice.id}',
+        data: invoice.toJson(),
       );
-      return PurchaseInvoiceModel.fromJson(response.data);
+      return PurchaseInvoiceModel.fromJson(response.data as Map<String, dynamic>);
     } on DioException catch (e) {
-      throw ServerException(
-        message: e.message ?? 'خطا در به‌روزرسانی فاکتور خرید',
-      );
+      throw ServerException(message: e.message ?? 'Error updating invoice');
     }
   }
 
   @override
-  Future<void> deletePurchase(PurchaseInvoiceModel purchase) async {
+  Future<void> deleteInvoice(int id) async {
     try {
-      await dioClient.delete('/purchases/$purchase');
+      await dioClient.delete('/Invoices/$id');
     } on DioException catch (e) {
-      throw ServerException(message: e.message ?? 'خطا در حذف فاکتور خرید');
+      throw ServerException(message: e.message ?? 'Error deleting invoice');
     }
   }
 
   @override
-  Future<void> deletePurchaseItem(PurchaseItemModel purchaseItem) async {
+  Future<PurchaseInvoiceModel> getInvoiceById(int id) async {
     try {
-      await dioClient.delete('/purchaseItem/$purchaseItem');
+      final Response<dynamic> response = await dioClient.get('/Invoices/$id');
+      return PurchaseInvoiceModel.fromJson(response.data as Map<String, dynamic>);
     } on DioException catch (e) {
-      throw ServerException(message: e.message ?? 'خطا در حذف فاکتور خرید');
+      throw ServerException(message: e.message ?? 'Error fetching invoice');
     }
   }
 
   @override
-  Future<void> createPayment(
-    PurchaseInvoiceModel purchase,
-    PaymentModel payment,
-  ) async {
+  Future<List<PurchaseItemModel>> getPurchaseItemsByPurchaseId(int purchaseId) async {
     try {
-      // ignore: unused_local_variable
-      final Response<dynamic> response = await dioClient.post(
-        '/purchases/${purchase.id}/payments',
-        data: payment.toJson(),
-      );
-    } on DioException catch (e) {
-      throw ServerException(message: e.message ?? 'خطا در ثبت پرداخت');
+      final Response<dynamic> response = await dioClient.get('/InvoiceLines?invoiceId=$purchaseId');
+      final List<dynamic> data = response.data;
+      return data.map((dynamic json) => PurchaseItemModel.fromJson(json as Map<String, dynamic>)).toList();
+    } catch (e) {
+      throw ServerException(message: 'Error fetching items');
     }
   }
 
   @override
-  Future<void> createPayments(
-    PurchaseInvoiceModel purchase,
-    List<PaymentModel> payments,
-  ) async {
-    try {
-      // ignore: unused_local_variable
-      final Response<dynamic> response = await dioClient.post(
-        '/purchases/${purchase.id}/payments',
-        data: payments,
-      );
-    } on DioException catch (e) {
-      throw ServerException(message: e.message ?? 'خطا در ثبت پرداخت');
-    }
+  Future<void> createPurchaseItem(PurchaseInvoiceModel purchase, PurchaseItemModel item) async {
+    await dioClient.post('/InvoiceLines', data: item.toJson());
+  }
+
+  @override
+  Future<void> updatePurchaseItem(PurchaseItemModel item) async {
+    await dioClient.put('/InvoiceLines/${item.id}', data: item.toJson());
+  }
+
+  @override
+  Future<void> deletePurchaseItem(PurchaseItemModel item) async {
+    await dioClient.delete('/InvoiceLines/${item.id}');
+  }
+
+  @override
+  Future<void> deletePurchaseItemsById(int purchaseId) async {
+    // Backend should handle this or we do it line by line
   }
 
   @override
   Future<List<PaymentModel>> getPaymentsByPurchaseId(int purchaseId) async {
-    try {
-      final Response<dynamic> response = await dioClient.get(
-        '/purchases/$purchaseId/payments',
-      );
-      final List<dynamic> data = response.data;
-      return data.map((dynamic json) => PaymentModel.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw ServerException(message: e.message ?? 'خطا در دریافت پرداخت‌ها');
-    }
+    final Response<dynamic> response = await dioClient.get('/Payments?invoiceId=$purchaseId');
+    return (response.data as List).map((dynamic e) => PaymentModel.fromJson(e as Map<String, dynamic>)).toList();
   }
-  //
-  // @override
-  // Future<void> createDelivery(
-  //   PurchaseInvoiceModel purchaseId,
-  //   DeliveryModel delivery,
-  // ) async {
-  //   try {
-  //     // ignore: unused_local_variable
-  //     final Response<dynamic> response = await dioClient.post(
-  //       '/purchases/$purchaseId/deliveries',
-  //       data: delivery.toJson(),
-  //     );
-  //   } on DioException catch (e) {
-  //     throw ServerException(message: e.message ?? 'خطا در ثبت تحویل');
-  //   }
-  // }
-
-  // @override
-  // Future<List<DeliveryModel>> getDeliveriesByPurchaseId(int purchaseId) async {
-  //   try {
-  //     final Response<dynamic> response = await dioClient.get(
-  //       '/purchases/$purchaseId/deliveries',
-  //     );
-  //     final List<dynamic> data = response.data;
-  //     return data.map((dynamic json) => DeliveryModel.fromJson(json)).toList();
-  //   } on DioException catch (e) {
-  //     throw ServerException(message: e.message ?? 'خطا در دریافت تحویل‌ها');
-  //   }
-  // }
 
   @override
-  Future<void> createItem(int purchaseId, PurchaseItemModel item) async {
-    try {
-      final Response<dynamic> response = await dioClient.post(
-        '/purchases/$purchaseId/items',
-        data: item.toJson(),
-      );
-      PurchaseItemModel.fromJson(response.data);
-    } on DioException catch (e) {
-      throw ServerException(message: e.message ?? 'خطا در ثبت آیتم');
+  Future<void> createPayment(PurchaseInvoiceModel purchase, PaymentModel payment) async {
+    await dioClient.post('/Payments', data: payment.toJson());
+  }
+
+  @override
+  Future<void> createPayments(PurchaseInvoiceModel purchase, List<PaymentModel> payments) async {
+    for (final PaymentModel p in payments) {
+      await createPayment(purchase, p);
     }
   }
 
   @override
-  Future<List<PurchaseItemModel>> getPurchaseItemsByPurchaseId(
-    int purchaseId,
-  ) async {
-    try {
-      final Response<dynamic> response = await dioClient.get(
-        '/purchases/$purchaseId/items',
-      );
-      final List<dynamic> data = response.data;
-      return data.map((dynamic json) => PurchaseItemModel.fromJson(json)).toList();
-    } on DioException catch (e) {
-      throw ServerException(message: e.message ?? 'خطا در دریافت آیتم‌ها');
-    }
+  Future<void> updatePayment(PaymentModel payment) async {
+    await dioClient.put('/Payments/${payment.id}', data: payment.toJson());
   }
 
   @override
-  Future<PurchaseInvoiceModel> getPurchaseInvoicesByPurchaseId(int purchaseId) {
-    // TODO: implement getPurchaseByInvoiceId
-    throw UnimplementedError();
-  }
-
-  // @override
-  // Future<void> deleteOrder(OrderModel order) {
-  //   // TODO: implement deleteOrder
-  //   throw UnimplementedError();
-  // }
-  //
-  // @override
-  // Future<void> createOrder(PurchaseInvoiceModel purchase, OrderModel order) {
-  //   // TODO: implement createOrder
-  //   throw UnimplementedError();
-  // }
-  //
-  // @override
-  // Future<List<OrderModel>> getOrdersByPurchaseId(int orderId) {
-  //   // TODO: implement getOrdersByPurchaseId
-  //   throw UnimplementedError();
-  // }
-
-  @override
-  Future<void> deletePayment(PaymentModel payment) {
-    // TODO: implement deletePayment
-    throw UnimplementedError();
-  }
-
-  // @override
-  // Future<void> createDeliveries(
-  //   PurchaseInvoiceModel purchaseId,
-  //   List<DeliveryModel> delivery,
-  // ) {
-  //   // TODO: implement createDeliveries
-  //   throw UnimplementedError();
-  // }
-  //
-  // @override
-  // Future<void> createOrders(
-  //   PurchaseInvoiceModel purchase,
-  //   List<OrderModel> order,
-  // ) {
-  //   // TODO: implement createOrders
-  //   throw UnimplementedError();
-  // }
-
-  @override
-  Future<void> createPurchaseItem(
-    PurchaseInvoiceModel purchase,
-    PurchaseItemModel purchaseItem,
-  ) {
-    // TODO: implement createPurchaseItem
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> updatePurchaseItem(PurchaseItemModel purchaseItem) {
-    // TODO: implement updatePurchaseItem
-    throw UnimplementedError();
-  }
-
-  // @override
-  // Future<void> updateOrder(OrderModel order) {
-  //   // TODO: implement updateOrder
-  //   throw UnimplementedError();
-  // }
-
-  @override
-  Future<void> updatePayment(PaymentModel payment) {
-    // TODO: implement updatePayment
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> deleteDeliveriesById(int purchaseId) async {
-    try {
-      await dioClient.delete('/deliveries/$purchaseId');
-    } on DioException catch (e) {
-      throw ServerException(message: e.message ?? 'خطا در حذف تحویل');
-    }
-  }
-
-  // @override
-  // Future<void> deleteDelivery(DeliveryModel delivery) async {
-  //   try {
-  //     await dioClient.delete('/deliveries/$delivery');
-  //   } on DioException catch (e) {
-  //     throw ServerException(message: e.message ?? 'خطا در حذف تحویل');
-  //   }
-  // }
-
-  @override
-  Future<void> deleteOrdersById(int purchaseId) {
-    // TODO: implement deleteOrdersById
-    throw UnimplementedError();
+  Future<void> deletePayment(PaymentModel payment) async {
+    await dioClient.delete('/Payments/${payment.id}');
   }
 
   @override
   Future<void> deletePaymentsById(int purchaseId) async {
-    try {
-      await dioClient.delete('/payments/$purchaseId');
-    } on DioException catch (e) {
-      throw ServerException(message: e.message ?? 'خطا در حذف پرداخت');
-    }
-  }
-
-  // @override
-  // Future<void> updateDelivery(DeliveryModel delivery) {
-  //   // TODO: implement updateDelivery
-  //   throw UnimplementedError();
-  // }
-
-  Future<void> deletePurchasesById(int purchaseId) {
-    // TODO: implement deletePurchasesById
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> deletePurchaseItemsById(int purchaseId) {
-    // TODO: implement deletePurchaseItemsById
-    throw UnimplementedError();
   }
 }

@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using khatoon_server_dotnet.Model.Interfaces.khatoon_server_dotnet.Model.Interfaces;
 
 namespace khatoon_server_dotnet.Model.Entities;
 
 [Table("commission_records")]
-public class CommissionRecord
+public class CommissionRecord : IHasId
 {
     [Key]
     public int Id { get; set; }

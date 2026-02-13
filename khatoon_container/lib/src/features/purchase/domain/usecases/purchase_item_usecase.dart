@@ -1,14 +1,17 @@
+
+
 import 'package:khatoon_container/src/features/purchase/data/datasources/purchase_remote_data_source.dart';
 import 'package:khatoon_container/src/features/purchase/data/models/purchase_invoice/purchase_invoice_model.dart';
 import 'package:khatoon_container/src/features/purchase/data/models/purchase_item/purchase_item_model.dart';
+import 'package:khatoon_shared/index.dart';
 
 class CreatePurchaseItemUseCase {
   final PurchaseRemoteDataSource repository;
 
   const CreatePurchaseItemUseCase({required this.repository});
 
-  Future<void> execute(PurchaseInvoiceModel purchase,PurchaseItemModel purchaseItem) async{
-    return await repository.createPurchaseItem(purchase,purchaseItem);
+  Future<void> execute(Invoice   purchase,PurchaseItemModel purchaseItem) async{
+      await repository.createInvoice(purchase, );
   }
 }
 

@@ -71,7 +71,7 @@ class InjectionContainer {
           () =>
       Dio(
         BaseOptions(
-          baseUrl: 'https://your-api-base-url.com',
+          baseUrl: 'http://localhost:5130/api',
           connectTimeout: const Duration(seconds: 15),
           receiveTimeout: const Duration(seconds: 15),
           headers: <String, dynamic>{
@@ -86,46 +86,42 @@ class InjectionContainer {
     );
 
     // ====================== Data Sources ======================
-    // sl.lazySingleton<PurchaseRemoteDataSource>(
-    //   () => PurchaseRemoteDataSource(dioClient: sl<Dio>()),
-    // );
-    //
-    // sl.lazySingleton<PurchaseLocalDataSource>(
-    //   () => PurchaseLocalDataSource(sharedPreferences: sl<SharedPreferences>()),
-    // );
-    // sl.lazySingleton<MenuRemoteDatasource>(
-    //   () => MenuRemoteDatasource(dio: sl<Dio>()),
-    // );
+    sl.lazySingleton<PurchaseRemoteDataSource>(
+       () => PurchaseRemoteDataSource(dioClient: sl<Dio>()),
+    );
+    
+    sl.lazySingleton<PurchaseLocalDataSource>(
+       () => PurchaseLocalDataSource(sharedPreferences: sl<SharedPreferences>()),
+    );
+
     // ====================== Repository ======================
     sl.lazySingleton<IPurchaseRepository>(
           () => PurchaseRepository(
         remoteDataSource: sl<PurchaseRemoteDataSource>(),
-        localDataSource: sl<PurchaseLocalDataSource>(),
       ),
     );
 
     // ======================Purchase Use Cases ======================
-    //====== Get
+    sl.lazySingleton<GetPurchasesUseCase>(
+       () => GetPurchasesUseCase(repository: sl<PurchaseRemoteDataSource>()),
+    );
+    
+    sl.lazySingleton<GetPurchasesByIdUseCase>(
+       () => GetPurchasesByIdUseCase(repository: sl<PurchaseRemoteDataSource>()),
+    );
 
-    // sl.lazySingleton<GetPurchasesUseCase>(
-    //   () => GetPurchasesUseCase(repository: sl<PurchaseRemoteDataSource>()),
-    // );
-    //
-    // sl.lazySingleton<GetPurchasesByIdUseCase>(
-    //   () => GetPurchasesByIdUseCase(repository: sl<PurchaseRemoteDataSource>()),
-    // );
+    sl.lazySingleton<CreatePurchaseUseCase>(
+       () => CreatePurchaseUseCase(repository: sl<PurchaseRemoteDataSource>()),
+    );
 
-    // sl.lazySingleton<GetDeliveryByPurchaseIdUseCase>(
-    //       () => GetDeliveryByPurchaseIdUseCase(
-    //     repository: sl<PurchaseRemoteDataSource>(),
-    //   ),
-    // );
-    //
-    // sl.lazySingleton<GetOrdersByPurchaseIdUseCase>(
-    //       () => GetOrdersByPurchaseIdUseCase(
-    //     repository: sl<PurchaseRemoteDataSource>(),
-    //   ),
-    // );
+    sl.lazySingleton<UpdatePurchaseUseCase>(
+       () => UpdatePurchaseUseCase(repository: sl<PurchaseRemoteDataSource>()),
+    );
+
+    sl.lazySingleton<DeletePurchaseUseCase>(
+       () => DeletePurchaseUseCase(repository: sl<PurchaseRemoteDataSource>()),
+    );
+
 
     sl.lazySingleton<GetPaymentsByInvoiceIdUseCase>(
           () => GetPaymentsByInvoiceIdUseCase(
@@ -133,51 +129,9 @@ class InjectionContainer {
       ),
     );
 
-    // sl.lazySingleton<GetPurchasesItemsByPurchaseIdUseCase>(
-    //   () => GetPurchasesItemsByPurchaseIdUseCase(
-    //     repository: sl<PurchaseRemoteDataSource>(),
-    //   ),
-    // );
-
-    //====== Update
-
-    // sl.lazySingleton<UpdatePurchaseUseCase>(
-    //   () => UpdatePurchaseUseCase(repository: sl<PurchaseRemoteDataSource>()),
-    // );
-    //
-    // sl.lazySingleton<UpdatePurchaseItemUseCase>(
-    //   () =>
-    //       UpdatePurchaseItemUseCase(repository: sl<PurchaseRemoteDataSource>()),
-    // );
-
     sl.lazySingleton<UpdatePaymentUseCase>(
           () => UpdatePaymentUseCase(repository: sl<PurchaseRemoteDataSource>()),
     );
-
-    // sl.lazySingleton<UpdateOrderUseCase>(
-    //       () => UpdateOrderUseCase(repository: sl<PurchaseRemoteDataSource>()),
-    // );
-    //
-    // sl.lazySingleton<UpdateDeliveryUseCase>(
-    //       () => UpdateDeliveryUseCase(repository: sl<PurchaseRemoteDataSource>()),
-    // );
-
-    //====== Delete
-
-    // sl.lazySingleton<DeletePurchaseUseCase>(
-    //   () => DeletePurchaseUseCase(repository: sl<PurchaseRemoteDataSource>()),
-    // );
-    //
-    // sl.lazySingleton<DeletePurchaseItemByIdUseCase>(
-    //   () => DeletePurchaseItemByIdUseCase(
-    //     repository: sl<PurchaseRemoteDataSource>(),
-    //   ),
-    // );
-    //
-    // sl.lazySingleton<DeletePurchaseItemUseCase>(
-    //   () =>
-    //       DeletePurchaseItemUseCase(repository: sl<PurchaseRemoteDataSource>()),
-    // );
 
     sl.lazySingleton<DeletePaymentUseCase>(
           () => DeletePaymentUseCase(repository: sl<PurchaseRemoteDataSource>()),
@@ -187,34 +141,6 @@ class InjectionContainer {
           () =>
           DeletePaymentsByIdUseCase(repository: sl<PurchaseRemoteDataSource>()),
     );
-    //
-    // sl.lazySingleton<DeleteOrderUseCase>(
-    //       () => DeleteOrderUseCase(repository: sl<PurchaseRemoteDataSource>()),
-    // );
-    //
-    // sl.lazySingleton<DeleteOrdersByIdUseCase>(
-    //       () => DeleteOrdersByIdUseCase(repository: sl<PurchaseRemoteDataSource>()),
-    // );
-    //
-    // sl.lazySingleton<DeleteDeliveryUseCase>(
-    //       () => DeleteDeliveryUseCase(repository: sl<PurchaseRemoteDataSource>()),
-    // );
-    //
-    // sl.lazySingleton<DeleteDeliveriesByIdUseCase>(
-    //       () => DeleteDeliveriesByIdUseCase(
-    //     repository: sl<PurchaseRemoteDataSource>(),
-    //   ),
-    // );
-
-    //====== Create
-    // sl.lazySingleton<CreatePurchaseUseCase>(
-    //   () => CreatePurchaseUseCase(repository: sl<PurchaseRemoteDataSource>()),
-    // );
-    //
-    // sl.lazySingleton<CreatePurchaseItemUseCase>(
-    //   () =>
-    //       CreatePurchaseItemUseCase(repository: sl<PurchaseRemoteDataSource>()),
-    // );
 
     sl.lazySingleton<CreatePaymentUseCase>(
           () => CreatePaymentUseCase(repository: sl<PurchaseRemoteDataSource>()),
@@ -223,14 +149,6 @@ class InjectionContainer {
     sl.lazySingleton<CreatePaymentsUseCase>(
           () => CreatePaymentsUseCase(repository: sl<PurchaseRemoteDataSource>()),
     );
-
-    // sl.lazySingleton<CreateOrderUseCase>(
-    //       () => CreateOrderUseCase(repository: sl<PurchaseRemoteDataSource>()),
-    // );
-    //
-    // sl.lazySingleton<CreateDeliveryUseCase>(
-    //       () => CreateDeliveryUseCase(repository: sl<PurchaseRemoteDataSource>()),
-    // );
 
     // ====================== Bloc ======================
     sl.lazySingleton<PurchaseListBloc>(
@@ -243,59 +161,10 @@ class InjectionContainer {
       ),
     );
 
-    sl.lazySingleton<PurchaseBloc>(
-          () => PurchaseBloc(
-        // Purchase Invoice
-
-        // Purchase Item
-        getPurchasesItemsUseCase: sl<GetPurchasesItemsByPurchaseIdUseCase>(),
-        createPurchaseItemUseCase: sl<CreatePurchaseItemUseCase>(),
-        updatePurchaseItemUseCase: sl<UpdatePurchaseItemUseCase>(),
-        deletePurchaseItemUseCase: sl<DeletePurchaseItemByIdUseCase>(),
-
-        // Payment
-        getPaymentsUseCase: sl<GetPaymentsByInvoiceIdUseCase>(),
-        createPaymentUseCase: sl<CreatePaymentUseCase>(),
-        createPaymentsUseCase: sl<CreatePaymentsUseCase>(),
-        updatePaymentUseCase: sl<UpdatePaymentUseCase>(),
-        deletePaymentUseCase: sl<DeletePaymentUseCase>(),
-        deletePaymentByIdUseCase: sl<DeletePaymentsByIdUseCase>(),
-
-        // Order
-        // getOrdersUseCase: sl<GetOrdersByPurchaseIdUseCase>(),
-        // createOrderUseCase: sl<CreateOrderUseCase>(),
-        // updateOrderUseCase: sl<UpdateOrderUseCase>(),
-        // deleteOrderUseCase: sl<DeleteOrderUseCase>(),
-        // deleteOrderByIdUseCase: sl<DeleteOrdersByIdUseCase>(),
-        //
-        // // Delivery
-        // getDeliveriesUseCase: sl<GetDeliveryByPurchaseIdUseCase>(),
-        // createDeliveryUseCase: sl<CreateDeliveryUseCase>(),
-        // updateDeliveryUseCase: sl<UpdateDeliveryUseCase>(),
-        // deleteDeliveryUseCase: sl<DeleteDeliveryUseCase>(),
-        // deleteDeliveryByIdUseCase: sl<DeleteDeliveriesByIdUseCase>(),
-      ),
-    );
-
     sl.registerLazySingleton<UserLocalDataSource>(() => UserLocalDataSource());
-
-    // sl.registerLazySingleton<UserRepository>(
-    //   () => UserRepository(sl<UserLocalDataSource>()),
-    // );
-    //
-    // if (!sl.isRegistered<AppHeaderBloc>()) {
-    //   sl.lazySingleton<AppHeaderBloc>(() => AppHeaderBloc());
-    // }
 
     sl.registerLazySingleton(() => ApiService());
     sl.registerLazySingleton(() => UserRemoteDataSource(sl<ApiService>()));
-    // sl.registerLazySingleton<GetUsersUseCase>(
-    //   () => GetUsersUseCase(sl<UserRemoteRepository>()),
-    // );
-    //
-    // sl.registerLazySingleton<SaveUserUseCase>(
-    //   () => SaveUserUseCase(sl<UserRemoteRepository>()),
-    // );
 
     try {
       await sl<AppNotifier>().initialize();

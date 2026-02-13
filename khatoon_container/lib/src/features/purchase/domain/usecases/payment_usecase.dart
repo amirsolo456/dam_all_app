@@ -1,16 +1,15 @@
 import 'package:khatoon_container/src/features/purchase/data/datasources/purchase_remote_data_source.dart';
 import 'package:khatoon_container/src/features/purchase/data/models/payment/payment_model.dart';
 import 'package:khatoon_container/src/features/purchase/data/models/purchase_invoice/purchase_invoice_model.dart';
+import 'package:khatoon_shared/index.dart';
 
 class GetPaymentsByInvoiceIdUseCase {
   final PurchaseRemoteDataSource repository;
 
   const GetPaymentsByInvoiceIdUseCase({required this.repository});
 
-  Future<List<PaymentModel>> execute(PurchaseInvoiceModel invoice) async {
-    return await repository.getPaymentsByPurchaseId(
-      invoice.id   ,
-    );
+  Future<Invoice> execute(PurchaseInvoiceModel invoice) async {
+    return await repository.getInvoiceById(invoice.id);
   }
 }
 
@@ -20,7 +19,7 @@ class DeletePaymentsByIdUseCase {
   const DeletePaymentsByIdUseCase({required this.repository});
 
   Future<void> execute(PurchaseInvoiceModel purchase) async {
-    return await repository.deletePaymentsById(purchase.id);
+    return await repository.deleteInvoice(purchase.id);
   }
 }
 
@@ -29,8 +28,8 @@ class DeletePaymentUseCase {
 
   const DeletePaymentUseCase({required this.repository});
 
-  Future<void> execute(PaymentModel payment) async {
-    return await repository.deletePayment(payment);
+  Future<void> execute(Invoice payment) async {
+    return await repository.deleteInvoice(payment.id);
   }
 }
 
@@ -39,8 +38,8 @@ class UpdatePaymentUseCase {
 
   const UpdatePaymentUseCase({required this.repository});
 
-  Future<void> execute(PaymentModel payment) async {
-    return await repository.updatePayment(payment);
+  Future<void> execute(PurchaseInvoiceModel payment) async {
+    await repository.updatePurchase(payment    );
   }
 }
 
@@ -49,11 +48,8 @@ class CreatePaymentUseCase {
 
   const CreatePaymentUseCase({required this.repository});
 
-  Future<void> execute(
-    PurchaseInvoiceModel purchase,
-    PaymentModel payment,
-  ) async {
-    return await repository.createPayment(purchase, payment);
+  Future<void> execute(PurchaseInvoiceModel purchase, Invoice payment) async {
+    await repository.createPurchase(purchase);
   }
 }
 
@@ -62,10 +58,7 @@ class CreatePaymentsUseCase {
 
   const CreatePaymentsUseCase({required this.repository});
 
-  Future<void> execute(
-    PurchaseInvoiceModel purchase,
-    List<PaymentModel> payment,
-  ) async {
-    return await repository.createPayments(purchase, payment);
+  Future<void> execute(PurchaseInvoiceModel purchase, Invoice payment) async {
+    await repository.createPurchase(purchase);
   }
 }

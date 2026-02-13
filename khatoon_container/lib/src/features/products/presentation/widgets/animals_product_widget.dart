@@ -3,6 +3,7 @@ import 'package:khatoon_container/src/core/di/injection_container.dart';
 import 'package:khatoon_container/src/features/animal/data/data_source/animal_local_datasource.dart';
 import 'package:khatoon_container/src/features/animal/data/models/animal_model.dart';
 import 'package:khatoon_container/src/features/animal/domain/entities/animal.dart';
+import 'package:khatoon_container/src/features/products/presentation/pages/product_create_page.dart';
 import 'package:khatoon_shared/index.dart';
 
 enum ProductSort { priceAsc, priceDesc, ageAsc, ageDesc }
@@ -23,7 +24,7 @@ class AnimalsProductsWidget extends StatefulWidget {
 
 class _AnimalsProductsPageState extends State<AnimalsProductsWidget> {
   // state
-  final Set<String> _selectedIds = <String>{};
+  final Set<int> _selectedIds = <int>{};
   final String _search = '';
   AnimalType? _typeFilter;
   Gender? _genderFilter;
@@ -151,7 +152,7 @@ class _AnimalsProductsPageState extends State<AnimalsProductsWidget> {
     return filtered;
   }
 
-  void _toggleSelect(String id, {bool? value}) {
+  void _toggleSelect(int id, {bool? value}) {
     setState(() {
       if (value == null) {
         if (_selectedIds.contains(id)) {
@@ -188,7 +189,7 @@ class _AnimalsProductsPageState extends State<AnimalsProductsWidget> {
 
   Map<AnimalType, List<AnimalModel>> _groupByTypeMap(List<AnimalModel> list) {
     final Map<AnimalType, List<AnimalModel>> map =
-        <AnimalType, List<AnimalModel>>{};
+    <AnimalType, List<AnimalModel>>{};
     for (final AnimalModel a in list) {
       map.putIfAbsent(a.type, () => <AnimalModel>[]).add(a);
     }
@@ -209,6 +210,18 @@ class _AnimalsProductsPageState extends State<AnimalsProductsWidget> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('محصولات دام'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.add_shopping_cart),
+            tooltip: 'افزودن محصول عمومی',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(builder: (_) => const ProductCreatePage()),
+              );
+            },
+          ),
+        ],
         // actions: <Widget>[
         //   IconButton(
         //     tooltip: 'انتخاب همه در صفحه',
@@ -466,7 +479,7 @@ class _AnimalsProductsPageState extends State<AnimalsProductsWidget> {
     );
     final List<AnimalType> keys = map.keys.toList()
       ..sort(
-        (AnimalType a, AnimalType b) => a.index.compareTo(b.index),
+            (AnimalType a, AnimalType b) => a.index.compareTo(b.index),
       ); // ترتیب نوع‌ها
 
     return ListView(

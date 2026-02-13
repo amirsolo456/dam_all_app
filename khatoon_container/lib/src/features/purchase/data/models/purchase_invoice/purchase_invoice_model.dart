@@ -10,146 +10,62 @@ class PurchaseInvoiceModel extends Invoice {
   @JsonKey(includeFromJson: false, includeToJson: false)
   bool isSelected = false;
 
-  // final List<DeliveryModel> deliveriesModel;
-
   final List<PurchaseItemModel> itemsModel;
-
   final List<PaymentModel> paymentsModel;
-
-  // @override
-  // final String sellerId;
-  // @override
-  // final String sellerName;
-  // @override
-  // final String notes;
-  // @override
-  // final double totalAmount;
-  // @override
-  // final double paidAmount;
 
   PurchaseInvoiceModel({
     required super.id,
     required super.createdAt,
     required super.status,
-    // required super.paymentStatus,
-    // required super.deliveryStatus,
-    // required super.isSettled,
-    // required super.sellerId,
-    // required super.sellerName,
-    // required super.notes,
     required super.totalAmount,
-    // required super.paidAmount,
-    // required this.deliveriesModel,
     required this.itemsModel,
     required this.paymentsModel,
     required super.invoiceNo,
     required super.type,
-    required super.partyId,
-
+    super.partyId,
     required super.isDeleted,
     required super.updatedAt,
-  }) : super(version: 0,date: createdAt);
+    required super.version,
+    required super.date,
+  });
 
-  // : super(
-  //    deliveries: deliveriesModel,
-  //    items: itemsModel,
-  //    payments: paymentsModel,
-  //  );
-
-  // تبدیل از JSON به مدل
   factory PurchaseInvoiceModel.fromJson(Map<String, dynamic> json) {
-    switch (json['paymentStatus']) {
-      case 'unpaid':
-        break;
-      case 'partial':
-        break;
-      case 'paid':
-        break;
-      default:
-    }
-
-    // تبدیل deliveryStatus از String به enum
-    // DeliveryStatus deliveryStatus;
-    // switch (json['deliveryStatus']) {
-    //   case 'pending':
-    //     deliveryStatus = DeliveryStatus.pending;
-    //     break;
-    //   case 'shipped':
-    //     deliveryStatus = DeliveryStatus.shipped;
-    //     break;
-    //   case 'delivered':
-    //     deliveryStatus = DeliveryStatus.delivered;
-    //     break;
-    //   default:
-    //     deliveryStatus = DeliveryStatus.pending;
-    // }
-
-    // تبدیل payments از لیست JSON
-    List<PaymentModel>? payments = <PaymentModel>[];
+    List<PaymentModel> payments = <PaymentModel>[];
     if (json['Payments'] != null && json['Payments'] is List) {
       payments = (json['Payments'] as List<dynamic>)
-          .map((dynamic paymentJson) => PaymentModel.fromJson(paymentJson))
+          .map((dynamic paymentJson) => PaymentModel.fromJson(paymentJson as Map<String, dynamic>))
           .toList();
     }
 
-    // تبدیل deliveries از لیست JSON
-    // List<DeliveryModel>? deliveries = <DeliveryModel>[];
-    // if (json['Deliveries'] != null && json['Deliveries'] is List) {
-    //   deliveries = (json['Deliveries'] as List<dynamic>)
-    //       .map((dynamic deliveryJson) => DeliveryModel.fromJson(deliveryJson))
-    //       .toList();
-    // }
-
-    // تبدیل items از لیست JSON
-    List<PurchaseItemModel>? items = <PurchaseItemModel>[];
-    if (json['Items'] != null && json['Items'] is List<PurchaseItemModel>) {
+    List<PurchaseItemModel> items = <PurchaseItemModel>[];
+    if (json['Items'] != null && json['Items'] is List) {
       items = (json['Items'] as List<dynamic>)
-          .map((dynamic itemJson) => PurchaseItemModel.fromJson(itemJson))
+          .map((dynamic itemJson) => PurchaseItemModel.fromJson(itemJson as Map<String, dynamic>))
           .toList();
     }
 
     return PurchaseInvoiceModel(
-      id: json['id'] as int,
-      // sellerId: json['sellerId'] as String,
-      // sellerName: json['SellerName'] ?? '',
-      // notes: json['notes'] ?? '',
-      createdAt: (json['createdAt'] as DateTime),
-      status: (json['Status'] ?? 0) as String,
-      totalAmount: (json['totalAmount'] as num).toDouble(),
-
-      // paidAmount: (json['paidAmount'] as num).toDouble(),
-      // paymentStatus: paymentStatus,
-      // deliveryStatus: deliveryStatus,
-      // isSettled: (json['isSettled'] ?? false) as bool,
-      // deliveriesModel: deliveries,
+      id: json['id'] as int? ?? 0,
+      createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt'] as String) : DateTime.now(),
+      updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt'] as String) : DateTime.now(),
+      date: json['date'] != null ? DateTime.parse(json['date'] as String) : DateTime.now(),
+      status: (json['status'] ?? "Open").toString(),
+      totalAmount: (json['totalAmount'] as num?)?.toDouble() ?? 0.0,
       itemsModel: items,
       paymentsModel: payments,
-      invoiceNo: (json['invoiceNo'] as String),
-      type: (json['type'] as String),
-      partyId: (json['partyId'] as int),
-      isDeleted: (json['isDeleted'] as bool),
-      updatedAt: (json['updatedAt'] as DateTime),
+      invoiceNo: (json['invoiceNo'] as String? ?? ""),
+      type: (json['type'] as String? ?? "Purchase"),
+      partyId: (json['partyId'] as int?),
+      isDeleted: (json['isDeleted'] as bool? ?? false),
+      version: (json['version'] as int? ?? 0),
     );
   }
 
-  // تبدیل از مدل به JSON
   @override
   Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      'id': id,
-      // 'sellerId': sellerId,
-      // 'SellerName': sellerName,
-      // 'notes': notes,
-      'date': createdAt,
-      'Status': status,
-      'totalAmount': totalAmount,
-      // 'paidAmount': paidAmount,
-      // 'paymentStatus': paymentStatus.toString().split('.').last,
-      // 'deliveryStatus': deliveryStatus.toString().split('.').last,
-      // 'isSettled': isSettled,
-      // 'Deliveries': deliveriesModel.map((DeliveryModel d) => d).toList(),
-      'Items': itemsModel.map((PurchaseItemModel i) => i).toList(),
-      'Payments': paymentsModel.map((PaymentModel p) => p.toJson()).toList(),
-    };
+    final Map<String, dynamic> map = super.toJson();
+    map['Items'] = itemsModel.map((PurchaseItemModel i) => i.toJson()).toList();
+    map['Payments'] = paymentsModel.map((PaymentModel p) => p.toJson()).toList();
+    return map;
   }
 }

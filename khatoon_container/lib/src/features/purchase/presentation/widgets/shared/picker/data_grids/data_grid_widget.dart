@@ -97,7 +97,7 @@ class _DataGridWidgetState extends State<DataGridWidget> {
           GridToolbar(
             onAdd: () async {
               final List<Animal> availableAnimals =
-                  <Animal>[]; // <<< این را با لیست واقعی جایگزین کن
+              <Animal>[]; // <<< این را با لیست واقعی جایگزین کن
 
               final List<Animal>? picked = await Navigator.push<List<Animal>>(
                 context,
@@ -182,68 +182,68 @@ class _DataGridWidgetState extends State<DataGridWidget> {
           Expanded(
             child: _items.isEmpty
                 ? Center(
-                    child: Text(
-                      'هیچ کالایی انتخاب نشده',
-                      style: TextStyle(color: colors.text),
-                    ),
-                  )
+              child: Text(
+                'هیچ کالایی انتخاب نشده',
+                style: TextStyle(color: colors.text),
+              ),
+            )
                 : ListView.builder(
-                    itemCount: _pagedItems.length,
-                    itemBuilder: (BuildContext context, int rowIndex) {
-                      final int globalIndex =
-                          (_currentPage - 1) * _rowsPerPage + rowIndex;
-                      final PurchaseItemModel item = _pagedItems[rowIndex];
-                      final bool isSelected =
-                          _selectedGlobalIndex == globalIndex;
+              itemCount: _pagedItems.length,
+              itemBuilder: (BuildContext context, int rowIndex) {
+                final int globalIndex =
+                    (_currentPage - 1) * _rowsPerPage + rowIndex;
+                final PurchaseItemModel item = _pagedItems[rowIndex];
+                final bool isSelected =
+                    _selectedGlobalIndex == globalIndex;
 
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _selectedGlobalIndex = isSelected
-                                ? null
-                                : globalIndex;
-                          });
-                        },
-                        child: Container(
-                          color: isSelected
-                              ? Colors.white10
-                              : Colors.transparent,
-                          child: Row(
-                            children: <Widget>[
-                              // ستون چک‌باکس
-                              Checkbox(
-                                value: item.isSelected,
-                                onChanged: (bool? value) {
-                                  setState(() {
-                                    item.isSelected = value ?? false;
-                                  });
-                                  _notifyParent();
-                                },
-                              ),
-                              // بقیه ستون‌ها
-                              ..._filledColumns.map((GridColumn col) {
-                                final String value = _valueForColumn(
-                                  col.columnName,
-                                  item,
-                                );
-                                return Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(12),
-                                    child: Text(
-                                      value,
-                                      style: TextStyle(color: colors.text),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                );
-                              }),
-                            ],
-                          ),
+                return GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _selectedGlobalIndex = isSelected
+                          ? null
+                          : globalIndex;
+                    });
+                  },
+                  child: Container(
+                    color: isSelected
+                        ? Colors.white10
+                        : Colors.transparent,
+                    child: Row(
+                      children: <Widget>[
+                        // ستون چک‌باکس
+                        Checkbox(
+                          value: item.isSelected,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              item.isSelected = value ?? false;
+                            });
+                            _notifyParent();
+                          },
                         ),
-                      );
-                    },
+                        // بقیه ستون‌ها
+                        ..._filledColumns.map((GridColumn col) {
+                          final String value = _valueForColumn(
+                            col.columnName,
+                            item,
+                          );
+                          return Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(12),
+                              child: Text(
+                                value,
+                                style: TextStyle(color: colors.text),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          );
+                        }),
+                      ],
+                    ),
                   ),
+                );
+              },
+            ),
           ),
 
           // pagination
@@ -271,21 +271,21 @@ class _DataGridWidgetState extends State<DataGridWidget> {
   }
 
   PurchaseItemModel _purchaseItemFromAnimal(Animal a) {
-    // فرض می‌گیریم PurchaseItemModel دارای فیلدهای id, name, quantity, price است.
-    // اگر سازندهٔ مدل شما فرق دارد، این تابع را تغییر بده.
-    final int id = int.tryParse(a.id) ?? DateTime.now().millisecondsSinceEpoch;
-    final String _ = a.name ?? a.tagNumber;
-    final double _ = 1;
+    final int id = a.id;
     final double price = (a.purchasePrice ?? a.estimatedValue ?? 0).toDouble();
 
     return PurchaseItemModel(
-      id: id,
-
-      invoiceId: id,
-      productId: 1,
-      qty: 1.0,
+      id: 0, // Temp ID for new line
+      invoiceId: 0, // Will be set by backend or before saving
+      productId: null, // If it's an animal, maybe we use partyId or description?
+      description: a.tagNumber,
+      quantity: 1.0,
       unitPrice: price,
-      lineTotal: 5.0,
+      lineTotal: price,
+      version: 0,
+      isDeleted: false,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
     );
   }
 
@@ -294,9 +294,9 @@ class _DataGridWidgetState extends State<DataGridWidget> {
       case 'id':
         return item.id.toString();
       case 'name':
-        return 'a';
+        return item.description ?? 'بدون نام';
       case 'quantity':
-        return item.qty.toString();
+        return item.quantity.toString();
       case 'price':
         return item.unitPrice.toStringAsFixed(2);
       default:

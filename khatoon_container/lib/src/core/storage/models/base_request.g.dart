@@ -6,34 +6,26 @@ part of 'base_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-BaseRequest _$BaseRequestFromJson(Map json) =>
+BaseRequest _$BaseRequestFromJson(Map<String, dynamic> json) =>
     BaseRequest(
         defaults: json['defaults'] == null
             ? null
-            : Defaults.fromJson(
-                Map<String, dynamic>.from(json['defaults'] as Map),
-              ),
+            : Defaults.fromJson(json['defaults'] as Map<String, dynamic>),
         orderInfo: json['orderInfo'] == null
             ? null
-            : OrderInfo.fromJson(
-                Map<String, dynamic>.from(json['orderInfo'] as Map),
-              ),
+            : OrderInfo.fromJson(json['orderInfo'] as Map<String, dynamic>),
         filters: json['filters'] == null
             ? null
-            : Filters.fromJson(
-                Map<String, dynamic>.from(json['filters'] as Map),
-              ),
+            : Filters.fromJson(json['filters'] as Map<String, dynamic>),
       )
       ..pagingInfo = json['pagingInfo'] == null
           ? null
-          : PagingInfo.fromJson(
-              Map<String, dynamic>.from(json['pagingInfo'] as Map),
-            );
+          : PagingInfo.fromJson(json['pagingInfo'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$BaseRequestToJson(BaseRequest instance) =>
     <String, dynamic>{
-      'filters': instance.filters?.toJson(),
-      'pagingInfo': instance.pagingInfo?.toJson(),
-      'orderInfo': instance.orderInfo?.toJson(),
-      'defaults': instance.defaults?.toJson(),
+      'filters': instance.filters,
+      'pagingInfo': instance.pagingInfo,
+      'orderInfo': instance.orderInfo,
+      'defaults': instance.defaults,
     };

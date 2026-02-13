@@ -6,14 +6,22 @@ part 'product.g.dart';
 class Product {
   final int id;
   final String name;
-  final String unit;
-  final double price;
+  final String? unit;
+  final double? defaultPrice;
+  final int version;
+  final bool isDeleted;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   Product({
     required this.id,
     required this.name,
-    required this.unit,
-    required this.price,
+    this.unit,
+    this.defaultPrice,
+    required this.version,
+    required this.isDeleted,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) =>

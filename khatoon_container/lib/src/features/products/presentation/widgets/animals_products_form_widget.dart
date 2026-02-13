@@ -117,8 +117,8 @@ class _AnimalsProductFormPageState extends State<AnimalsProductFormPage> {
     if (!_formKey.currentState!.validate()) return;
     FocusManager.instance.primaryFocus?.unfocus();
 
-    final String id =
-        widget.initial?.id ?? DateTime.now().millisecondsSinceEpoch.toString();
+    final int id =
+        widget.initial?.id ?? DateTime.now().millisecondsSinceEpoch  ;
 
     final double? purchasePrice = double.tryParse(
       _purchasePriceController.text.trim(),

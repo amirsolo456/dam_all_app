@@ -33,15 +33,15 @@ class AnimalRepository implements IAnimalRepository {
   }
 
   @override
-  Future<void> deleteAnimal(String id) async {
+  Future<void> deleteAnimal(int id) async {
     // if (await networkInfo.isConnected()) {
-    return remote.deleteAnimal(id);
+    return remote.deleteAnimal(id.toString());
     // }
     // throw NoConnectionException();
   }
 
   @override
-  Future<Animal> getAnimalById(String id) async {
+  Future<Animal> getAnimalById(int id) async {
     // TODO: implement getAnimalById
     throw UnimplementedError();
   }

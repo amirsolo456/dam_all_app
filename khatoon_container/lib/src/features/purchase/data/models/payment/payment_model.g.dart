@@ -6,20 +6,15 @@ part of 'payment_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PaymentModel _$PaymentModelFromJson(Map json) => PaymentModel(
+PaymentModel _$PaymentModelFromJson(Map<String, dynamic> json) => PaymentModel(
   purchaseItemModels:
       (json['ItemsModel'] as List<dynamic>?)
-          ?.map(
-            (e) =>
-                PurchaseItemModel.fromJson(Map<String, dynamic>.from(e as Map)),
-          )
+          ?.map((e) => PurchaseItemModel.fromJson(e as Map<String, dynamic>))
           .toList() ??
       [],
   paymentModels:
       (json['PaymentsModel'] as List<dynamic>?)
-          ?.map(
-            (e) => PaymentModel.fromJson(Map<String, dynamic>.from(e as Map)),
-          )
+          ?.map((e) => PaymentModel.fromJson(e as Map<String, dynamic>))
           .toList() ??
       [],
   id: (json['id'] as num).toInt(),
@@ -36,6 +31,6 @@ Map<String, dynamic> _$PaymentModelToJson(PaymentModel instance) =>
       'amount': instance.amount,
       'method': instance.method,
       'notes': instance.notes,
-      'ItemsModel': instance.purchaseItemModels.map((e) => e.toJson()).toList(),
-      'PaymentsModel': instance.paymentModels.map((e) => e.toJson()).toList(),
+      'ItemsModel': instance.purchaseItemModels,
+      'PaymentsModel': instance.paymentModels,
     };
