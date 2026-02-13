@@ -6,7 +6,7 @@ part of 'person.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Person _$PersonFromJson(Map json) => Person(
+Person _$PersonFromJson(Map<String, dynamic> json) => Person(
   (json['id'] as num).toInt(),
   town: json['town'] as String,
   street: json['street'] as String,

@@ -6,18 +6,18 @@ part of 'sale.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Sale _$SaleFromJson(Map json) => Sale(
+Sale _$SaleFromJson(Map<String, dynamic> json) => Sale(
   invoices: (json['invoices'] as List<dynamic>)
-      .map((e) => InvoiceLine.fromJson(Map<String, dynamic>.from(e as Map)))
+      .map((e) => InvoiceLine.fromJson(e as Map<String, dynamic>))
       .toList(),
-  invoice: Invoice.fromJson(Map<String, dynamic>.from(json['invoice'] as Map)),
+  invoice: Invoice.fromJson(json['invoice'] as Map<String, dynamic>),
   payments: (json['payments'] as List<dynamic>)
-      .map((e) => Payment.fromJson(Map<String, dynamic>.from(e as Map)))
+      .map((e) => Payment.fromJson(e as Map<String, dynamic>))
       .toList(),
 );
 
 Map<String, dynamic> _$SaleToJson(Sale instance) => <String, dynamic>{
-  'invoices': instance.invoices.map((e) => e.toJson()).toList(),
-  'invoice': instance.invoice.toJson(),
-  'payments': instance.payments.map((e) => e.toJson()).toList(),
+  'invoices': instance.invoices,
+  'invoice': instance.invoice,
+  'payments': instance.payments,
 };

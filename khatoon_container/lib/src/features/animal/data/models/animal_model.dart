@@ -25,7 +25,7 @@ class AnimalModel extends Animal {
 
   factory AnimalModel.fromJson(Map<String, dynamic> json) {
     return AnimalModel(
-      id: json['id'].toString(),
+      id: json['id'] as int,
       name: (json['name'] as String?)?.trim(),
       tagNumber: json['tagNumber'] as String,
       breed: (json['breed'] as String?)?.trim(),

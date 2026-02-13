@@ -23,7 +23,7 @@ class AnimalsProductsWidget extends StatefulWidget {
 
 class _AnimalsProductsPageState extends State<AnimalsProductsWidget> {
   // state
-  final Set<String> _selectedIds = <String>{};
+  final Set<int> _selectedIds = <int>{};
   final String _search = '';
   AnimalType? _typeFilter;
   Gender? _genderFilter;
@@ -151,7 +151,7 @@ class _AnimalsProductsPageState extends State<AnimalsProductsWidget> {
     return filtered;
   }
 
-  void _toggleSelect(String id, {bool? value}) {
+  void _toggleSelect(int id, {bool? value}) {
     setState(() {
       if (value == null) {
         if (_selectedIds.contains(id)) {
@@ -209,6 +209,18 @@ class _AnimalsProductsPageState extends State<AnimalsProductsWidget> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('محصولات دام'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.add_shopping_cart),
+            tooltip: 'افزودن محصول عمومی',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(builder: (_) => const ProductCreatePage()),
+              );
+            },
+          ),
+        ],
         // actions: <Widget>[
         //   IconButton(
         //     tooltip: 'انتخاب همه در صفحه',

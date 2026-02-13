@@ -7,16 +7,14 @@ part of 'public_usecase_result.dart';
 // **************************************************************************
 
 PublicUseCaseResult<T> _$PublicUseCaseResultFromJson<T>(
-  Map json,
+  Map<String, dynamic> json,
   T Function(Object? json) fromJsonT,
 ) => PublicUseCaseResult<T>(
   state: $enumDecode(_$UseCaseStateEnumMap, json['state']),
   message: json['message'] as String?,
   error: json['error'] == null
       ? null
-      : SerializableError.fromJson(
-          Map<String, dynamic>.from(json['error'] as Map),
-        ),
+      : SerializableError.fromJson(json['error'] as Map<String, dynamic>),
   data: _$nullableGenericFromJson(json['data'], fromJsonT),
 );
 
@@ -26,7 +24,7 @@ Map<String, dynamic> _$PublicUseCaseResultToJson<T>(
 ) => <String, dynamic>{
   'state': _$UseCaseStateEnumMap[instance.state]!,
   'message': instance.message,
-  'error': instance.error?.toJson(),
+  'error': instance.error,
   'data': _$nullableGenericToJson(instance.data, toJsonT),
 };
 

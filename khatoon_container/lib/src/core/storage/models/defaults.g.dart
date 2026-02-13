@@ -6,7 +6,7 @@ part of 'defaults.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Defaults _$DefaultsFromJson(Map json) => Defaults(
+Defaults _$DefaultsFromJson(Map<String, dynamic> json) => Defaults(
   cashierId: (json['cashierId'] as num).toInt(),
   currencyId: (json['currencyId'] as num).toInt(),
   languageId: (json['languageId'] as num).toInt(),

@@ -271,21 +271,21 @@ class _DataGridWidgetState extends State<DataGridWidget> {
   }
 
   PurchaseItemModel _purchaseItemFromAnimal(Animal a) {
-    // فرض می‌گیریم PurchaseItemModel دارای فیلدهای id, name, quantity, price است.
-    // اگر سازندهٔ مدل شما فرق دارد، این تابع را تغییر بده.
-    final int id = int.tryParse(a.id) ?? DateTime.now().millisecondsSinceEpoch;
-    final String _ = a.name ?? a.tagNumber;
-    final double _ = 1;
+    final int id = a.id;
     final double price = (a.purchasePrice ?? a.estimatedValue ?? 0).toDouble();
 
     return PurchaseItemModel(
-      id: id,
-
-      invoiceId: id,
-      productId: 1,
-      qty: 1.0,
+      id: 0, // Temp ID for new line
+      invoiceId: 0, // Will be set by backend or before saving
+      productId: null, // If it's an animal, maybe we use partyId or description?
+      description: a.tagNumber,
+      quantity: 1.0,
       unitPrice: price,
-      lineTotal: 5.0,
+      lineTotal: price,
+      version: 0,
+      isDeleted: false,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
     );
   }
 
@@ -294,9 +294,9 @@ class _DataGridWidgetState extends State<DataGridWidget> {
       case 'id':
         return item.id.toString();
       case 'name':
-        return 'a';
+        return item.description ?? 'بدون نام';
       case 'quantity':
-        return item.qty.toString();
+        return item.quantity.toString();
       case 'price':
         return item.unitPrice.toStringAsFixed(2);
       default:

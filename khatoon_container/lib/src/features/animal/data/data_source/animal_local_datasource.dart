@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class IAnimalLocalDataSource {
   Future<List<AnimalModel>> getCachedAnimals();
   Future<void> addAnimal(AnimalModel animal);
-  Future<void> removeAnimal(String id); // حذف تکی با شناسه
+  Future<void> removeAnimal(int id); // حذف تکی با شناسه
   Future<void> clearAnimals();         // حذف همه
 }
 
@@ -39,7 +39,7 @@ class AnimalLocalDataSource implements IAnimalLocalDataSource {
 
   // حذف یک حیوان با id
   @override
-  Future<void> removeAnimal(String id) async {
+  Future<void> removeAnimal(int id) async {
     final List<AnimalModel> currentAnimals = await getCachedAnimals();
     currentAnimals.removeWhere((AnimalModel element) => element.id == id);
     final String jsonString =

@@ -6,9 +6,9 @@ part of 'filters.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Filters _$FiltersFromJson(Map json) => Filters(
+Filters _$FiltersFromJson(Map<String, dynamic> json) => Filters(
   filterInfo: (json['filterInfo'] as List<dynamic>?)
-      ?.map((e) => FilterInfo.fromJson(Map<String, dynamic>.from(e as Map)))
+      ?.map((e) => FilterInfo.fromJson(e as Map<String, dynamic>))
       .toList(),
   showOnlyBookmarked: json['showOnlyBookmarked'] as bool?,
   tagIdsFilter: (json['tagIdsFilter'] as List<dynamic>?)
@@ -17,7 +17,7 @@ Filters _$FiltersFromJson(Map json) => Filters(
 );
 
 Map<String, dynamic> _$FiltersToJson(Filters instance) => <String, dynamic>{
-  'filterInfo': instance.filterInfo?.map((e) => e.toJson()).toList(),
+  'filterInfo': instance.filterInfo,
   'showOnlyBookmarked': instance.showOnlyBookmarked,
   'tagIdsFilter': instance.tagIdsFilter,
 };
