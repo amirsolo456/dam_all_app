@@ -1,10 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using khatoon_server_dotnet.Model.Interfaces;
 
 namespace khatoon_server_dotnet.Model.Entities;
 
 [Table("payment_allocations")]
-public class PaymentAllocation
+public class PaymentAllocation : IHasId
 {
     [Key]
     public int Id { get; set; }

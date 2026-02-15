@@ -79,11 +79,6 @@ class Inject {
         ),
       );
 
-      sl.lazySingleton<DeletePurchaseItemUseCase>(
-        () => DeletePurchaseItemUseCase(
-          repository: sl<PurchaseRemoteDataSource>(),
-        ),
-      );
 
       sl.lazySingleton<CreatePurchaseUseCase>(
         () => CreatePurchaseUseCase(repository: sl<PurchaseRemoteDataSource>()),

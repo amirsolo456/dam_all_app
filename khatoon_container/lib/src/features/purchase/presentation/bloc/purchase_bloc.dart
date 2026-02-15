@@ -4,10 +4,14 @@ import 'package:khatoon_container/src/features/purchase/data/models/purchase_inv
 import 'package:khatoon_container/src/features/purchase/data/models/purchase_item/purchase_item_model.dart';
 import 'package:khatoon_container/src/features/purchase/domain/usecases/payment_usecase.dart';
 import 'package:khatoon_container/src/features/purchase/domain/usecases/purchase_item_usecase.dart';
+import 'package:khatoon_container/src/features/purchase/domain/usecases/purchase_usecase.dart';
 import 'package:khatoon_container/src/features/purchase/presentation/bloc/purchase_event.dart';
 import 'package:khatoon_container/src/features/purchase/presentation/bloc/purchase_state.dart';
 
 class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
+  // Purchase Invoice UseCases
+  final GetPurchasesUseCase getPurchasesUseCase;
+
   // Purchase Item UseCases
   final GetPurchasesItemsByPurchaseIdUseCase getPurchasesItemsUseCase;
   final CreatePurchaseItemUseCase createPurchaseItemUseCase;
@@ -23,6 +27,7 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
   final DeletePaymentsByIdUseCase deletePaymentByIdUseCase;
 
   PurchaseBloc({
+    required this.getPurchasesUseCase,
     required this.getPurchasesItemsUseCase,
     required this.createPurchaseItemUseCase,
     required this.updatePurchaseItemUseCase,
@@ -55,8 +60,8 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
   ) async {
     emit(PurchaseLoading());
     try {
-      // In a real app, you'd use GetPurchasesUseCase here
-      emit(PurchasesLoadedState(<PurchaseInvoiceModel>[]));
+      final List<PurchaseInvoiceModel> invoices = await getPurchasesUseCase.execute();
+      emit(PurchasesLoadedState(invoices));
     } catch (e) {
       emit(PurchaseErrorState('Error: ${e.toString()}'));
     }
@@ -83,7 +88,7 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
     emit(PurchaseItemsLoading());
     try {
       final List<PurchaseItemModel> items = await getPurchasesItemsUseCase
-          .execute(event.purchase);
+          .execute(event.purchase.id);
       emit(PurchaseItemsLoadedState(items));
     } catch (e) {
       emit(PurchaseErrorState('Error fetching items: ${e.toString()}'));
@@ -95,7 +100,7 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
     Emitter<PurchaseState> emit,
   ) async {
     try {
-      await createPurchaseItemUseCase.execute(event.purchase, event.item);
+      await createPurchaseItemUseCase.execute(event.item);
       emit(PurchaseItemCreatedState(event.item));
     } catch (e) {
       emit(PurchaseErrorState('Error creating item: ${e.toString()}'));
@@ -119,7 +124,7 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
     Emitter<PurchaseState> emit,
   ) async {
     try {
-      await deletePurchaseItemUseCase.execute(event.item);
+      await deletePurchaseItemUseCase.execute(event.item.id);
       emit(PurchaseItemDeletedState(event.item));
     } catch (e) {
       emit(PurchaseErrorState('Error deleting item: ${e.toString()}'));
@@ -133,7 +138,7 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
     emit(PaymentsLoading());
     try {
       final List<PaymentModel> payments = await getPaymentsUseCase.execute(
-        event.invoice,
+        event.invoice.id,
       );
       emit(PaymentsLoadedState(payments));
     } catch (e) {
@@ -146,7 +151,7 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
     Emitter<PurchaseState> emit,
   ) async {
     try {
-      await createPaymentUseCase.execute(event.invoice, event.payment);
+      await createPaymentUseCase.execute(event.payment);
       emit(PaymentCreatedState(event.payment));
     } catch (e) {
       emit(PurchaseErrorState('Error creating payment: ${e.toString()}'));
@@ -170,7 +175,7 @@ class PurchaseBloc extends Bloc<PurchaseEvent, PurchaseState> {
     Emitter<PurchaseState> emit,
   ) async {
     try {
-      await deletePaymentUseCase.execute(event.payment);
+      await deletePaymentUseCase.execute(event.payment.id);
       emit(PaymentDeletedState(event.payment));
     } catch (e) {
       emit(PurchaseErrorState('Error deleting payment: ${e.toString()}'));

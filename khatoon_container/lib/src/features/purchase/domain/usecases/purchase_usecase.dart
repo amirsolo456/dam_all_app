@@ -12,7 +12,7 @@ class CreatePurchaseUseCase {
   const CreatePurchaseUseCase({required this.repository});
 
   Future<PurchaseInvoiceModel> execute(PurchaseInvoiceModel invoice) async {
-    return await repository.createPurchase(invoice);
+    return await repository.createInvoice(invoice);
   }
 }
 
@@ -22,7 +22,7 @@ class GetPurchasesUseCase {
   const GetPurchasesUseCase({required this.repository});
 
   Future<List<PurchaseInvoiceModel>> execute() async {
-    return await repository.getPurchases();
+    return await repository.getInvoices();
   }
 }
 
@@ -52,7 +52,7 @@ class UpdatePurchaseUseCase {
   const UpdatePurchaseUseCase({required this.repository});
 
   Future<PurchaseInvoiceModel> execute(PurchaseInvoiceModel invoice) {
-    return repository.updatePurchase(invoice);
+    return repository.updateInvoice(invoice);
   }
 }
 

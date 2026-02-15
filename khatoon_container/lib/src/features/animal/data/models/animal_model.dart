@@ -15,12 +15,14 @@ class AnimalModel extends Animal {
     super.purchaseSource,
     super.notes,
     super.isActive = true,
+    required super.version,
+    required super.isDeleted,
+    required super.createdAt,
+    required super.updatedAt,
     HealthStatus? healthStatus,
     super.reproductionStatus,
-    DateTime? createdAt,
   }) : super(
          healthStatus: healthStatus ?? HealthStatus.good,
-         createdAt: createdAt ?? (  DateTime.now()),
        );
 
   factory AnimalModel.fromJson(Map<String, dynamic> json) {
@@ -50,13 +52,22 @@ class AnimalModel extends Animal {
       notes: (json['notes'] as String?)?.trim(),
       isActive: json['isActive'] == null || (json['isActive'] as bool),
       healthStatus: json['healthStatus'] != null
-          ? HealthStatus.values[json['healthStatus']]
+          ? (json['healthStatus'] is int
+              ? HealthStatus.values[json['healthStatus']]
+              : HealthStatus.values.firstWhere((e) => e.name == json['healthStatus']))
           : HealthStatus.good,
       reproductionStatus: json['reproductionStatus'] != null
-          ? ReproductionStatus.values[json['reproductionStatus']]
+          ? (json['reproductionStatus'] is int
+              ? ReproductionStatus.values[json['reproductionStatus']]
+              : ReproductionStatus.values.firstWhere((e) => e.name == json['reproductionStatus']))
           : ReproductionStatus.notReady,
+      version: json['version'] ?? 0,
+      isDeleted: json['isDeleted'] ?? false,
       createdAt: json['createdAt'] != null
           ? DateTime.parse(json['createdAt'])
+          : DateTime.now(),
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.parse(json['updatedAt'])
           : DateTime.now(),
     );
   }
@@ -75,9 +86,12 @@ class AnimalModel extends Animal {
       'purchaseSource': purchaseSource,
       'notes': notes,
       'isActive': isActive,
-      'healthStatus': healthStatus?.index,
-      'reproductionStatus': reproductionStatus?.index,
+      'healthStatus': healthStatus?.name,
+      'reproductionStatus': reproductionStatus?.name,
+      'version': version,
+      'isDeleted': isDeleted,
       'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt.toIso8601String(),
     };
   }
 }

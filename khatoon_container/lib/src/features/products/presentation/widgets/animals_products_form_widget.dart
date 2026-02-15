@@ -117,8 +117,8 @@ class _AnimalsProductFormPageState extends State<AnimalsProductFormPage> {
     if (!_formKey.currentState!.validate()) return;
     FocusManager.instance.primaryFocus?.unfocus();
 
-    final String id =
-        widget.initial?.id ?? DateTime.now().millisecondsSinceEpoch.toString();
+    final int id =
+        widget.initial?.id ?? DateTime.now().millisecondsSinceEpoch;
 
     final double? purchasePrice = double.tryParse(
       _purchasePriceController.text.trim(),
@@ -127,6 +127,7 @@ class _AnimalsProductFormPageState extends State<AnimalsProductFormPage> {
       _estimatedValueController.text.trim(),
     );
 
+    final now = DateTime.now();
     final AnimalModel result = AnimalModel(
       id: id,
       name: _nameController.text.isEmpty ? null : _nameController.text,
@@ -147,9 +148,11 @@ class _AnimalsProductFormPageState extends State<AnimalsProductFormPage> {
       notes: _notesController.text.trim().isEmpty
           ? null
           : _notesController.text.trim(),
-      healthStatus: .good,
-
-      createdAt: DateTime.now(),
+      healthStatus: HealthStatus.good,
+      version: widget.initial?.version ?? 1,
+      isDeleted: widget.initial?.isDeleted ?? false,
+      createdAt: widget.initial?.createdAt ?? now,
+      updatedAt: now,
     );
 
     widget.onSaved?.call(result);

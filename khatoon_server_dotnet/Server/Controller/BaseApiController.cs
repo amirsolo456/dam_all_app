@@ -1,6 +1,6 @@
 ﻿// File: Controllers/BaseApiController.cs
 using khatoon_server_dotnet.Model.Interfaces;
-using khatoon_server_dotnet.Model.Interfaces.khatoon_server_dotnet.Model.Interfaces;
+using khatoon_server_dotnet.Model.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

@@ -21,26 +21,28 @@ class _PurchaseFormWidgetState extends State<PurchaseFormWidget> {
   PersonModel? _selectedCustomer;
   final List<PersonModel> _availableCustomers = <PersonModel>[
     PersonModel(
-      1,
+      id: 1,
+      type: 'Customer',
       name: 'مشتری ۱',
-      familyName: 'نام خانوادگی ۱',
-      phoneNumber: '09120000000',
-      street: 'خیابان ۱',
-      town: 'تهران',
-      fullAddress: 'تهران، خیابان ۱',
-      description: '',
-      createDate: DateTime.now().millisecond,
+      phone: '09120000000',
+      address: 'تهران، خیابان ۱',
+      notes: '',
+      version: 1,
+      isDeleted: false,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
     ),
     PersonModel(
-      2,
+      id: 2,
+      type: 'Supplier',
       name: 'تامین کننده ۱',
-      familyName: 'نام خانوادگی ۲',
-      phoneNumber: '09121111111',
-      street: 'خیابان ۲',
-      town: 'تهران',
-      fullAddress: 'تهران، خیابان ۲',
-      description: '',
-      createDate: DateTime.now().millisecond,
+      phone: '09121111111',
+      address: 'تهران، خیابان ۲',
+      notes: '',
+      version: 1,
+      isDeleted: false,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
     ),
   ];
   List<PurchaseItemModel> _selectedItems = <PurchaseItemModel>[];
@@ -61,7 +63,7 @@ class _PurchaseFormWidgetState extends State<PurchaseFormWidget> {
             cardChild: ListTile(
               title: Text(
                 _selectedCustomer != null
-                    ? '${_selectedCustomer?.name} ${_selectedCustomer?.familyName}'
+                    ? '${_selectedCustomer?.name}'
                     : 'انتخاب مشتری/تامین‌کننده',
               ),
               trailing: const Icon(Icons.person),

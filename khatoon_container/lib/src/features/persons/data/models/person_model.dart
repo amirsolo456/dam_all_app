@@ -1,25 +1,31 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:khatoon_container/src/features/persons/domain/entities/person.dart';
+import 'package:khatoon_shared/index.dart';
 
 part 'person_model.g.dart';
 
 @JsonSerializable()
-class PersonModel extends Person {
+class PersonModel extends Party {
   @JsonKey(includeFromJson: false, includeToJson: false)
-  late bool isSelected;
+  bool isSelected = false;
 
-  PersonModel(
-    super.id, {
-    required super.town,
-    required super.street,
-    required super.fullAddress,
-    required super.description,
+  PersonModel({
+    required super.id,
+    required super.type,
     required super.name,
-    required super.familyName,
-    required super.phoneNumber,
-    required super.createDate,
+    super.phone,
+    super.address,
+    super.notes,
+    required super.version,
+    required super.isDeleted,
+    required super.createdAt,
+    required super.updatedAt,
     this.isSelected = false,
   });
+
+  // Keep compatibility with old code if possible or refactor
+  String get familyName => '';
+  String get phoneNumber => phone ?? '';
+  String get fullAddress => address ?? '';
 
   factory PersonModel.fromJson(Map<String, dynamic> json) =>
       _$PersonModelFromJson(json);

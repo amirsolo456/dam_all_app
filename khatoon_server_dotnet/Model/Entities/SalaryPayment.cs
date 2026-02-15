@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-using khatoon_server_dotnet.Model.Interfaces.khatoon_server_dotnet.Model.Interfaces;
+using khatoon_server_dotnet.Model.Interfaces;
 
 namespace khatoon_server_dotnet.Model.Entities;
 

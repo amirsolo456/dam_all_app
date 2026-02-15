@@ -59,7 +59,7 @@ class _PersonPickerDialogState extends State<PersonPickerDialog> {
                   ),
                   subtitle: Text(
                     maxLines: 1,
-                    '${context.l10n.invoice_saler}: ${person.id} - ${context.l10n.payment_amount}: ${person.description}',
+                    '${context.l10n.invoice_saler}: ${person.id} - ${context.l10n.payment_amount}: ${person.notes}',
                   ),
                   trailing: const Chip(
                     mouseCursor: .defer,

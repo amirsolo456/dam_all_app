@@ -7,15 +7,31 @@ class Payment {
   final int id;
   final DateTime date;
   final double amount;
-  final String method; // cash, card, transfer
+  final String direction;
+  final String? paymentMethod;
+  final int? fromPartyId;
+  final int? toPartyId;
+  final String? reference;
   final String? notes;
+  final int version;
+  final bool isDeleted;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   Payment({
     required this.id,
     required this.date,
     required this.amount,
-    required this.method,
+    required this.direction,
+    this.paymentMethod,
+    this.fromPartyId,
+    this.toPartyId,
+    this.reference,
     this.notes,
+    required this.version,
+    required this.isDeleted,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   factory Payment.fromJson(Map<String, dynamic> json) =>
@@ -23,31 +39,3 @@ class Payment {
 
   Map<String, dynamic> toJson() => _$PaymentToJson(this);
 }
-
-
-/*
-
-/// Payment method ساده
-class PaymentMethod {
-  final String id;
-  final String type; // e.g., "card", "paypal", "wallet"
-  final String last4;
-  final bool isDefault;
-
-  PaymentMethod({
-    required this.id,
-    required this.type,
-    required this.last4,
-    this.isDefault = false,
-  });
-
-  Map<String, dynamic> toMap() =>
-      {'id': id, 'type': type, 'last4': last4, 'isDefault': isDefault};
-
-  factory PaymentMethod.fromMap(Map<String, dynamic> map) => PaymentMethod(
-    id: map['id'] as String,
-    type: map['type'] as String,
-    last4: map['last4'] as String,
-    isDefault: map['isDefault'] as bool? ?? false,
-  );
-}*/

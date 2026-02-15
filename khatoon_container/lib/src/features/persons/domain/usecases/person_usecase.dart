@@ -26,7 +26,7 @@ class DeletePersonUseCase {
 
   const DeletePersonUseCase({required this.personDataSource});
 
-  Future<void> execute(String personId) async {
+  Future<void> execute(int personId) async {
     return await personDataSource.deletePerson(personId);
   }
 }

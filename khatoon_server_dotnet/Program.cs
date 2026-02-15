@@ -50,6 +50,10 @@ namespace khatoon_server_dotnet
             builder.Services.AddScoped<ISyncQueueService, SyncQueueService>();
             builder.Services.AddScoped<ITombstoneService, TombstoneService>();
             builder.Services.AddScoped<IAppEnumService, AppEnumService>();
+            builder.Services.AddScoped<IRoleService, RoleService>();
+            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IPaymentAllocationService, PaymentAllocationService>();
+            builder.Services.AddScoped<IInvoiceLineService, InvoiceLineService>();
 
             var app = builder.Build();
 

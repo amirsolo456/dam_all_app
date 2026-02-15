@@ -6,24 +6,23 @@ import 'package:khatoon_container/src/features/purchase/data/models/purchase_ite
 import 'package:khatoon_shared/index.dart';
 
 abstract class IPurchaseRemoteDataSource {
-  Future<List<PurchaseInvoiceModel>> getPurchases();
+  Future<List<PurchaseInvoiceModel>> getInvoices();
   Future<PurchaseInvoiceModel> getInvoiceById(int id);
-  Future<PurchaseInvoiceModel> createPurchase(PurchaseInvoiceModel invoice);
-  Future<PurchaseInvoiceModel> updatePurchase(PurchaseInvoiceModel invoice);
+  Future<PurchaseInvoiceModel> createInvoice(Invoice invoice);
+  Future<PurchaseInvoiceModel> updateInvoice(Invoice invoice);
   Future<void> deleteInvoice(int id);
 
   Future<List<PurchaseItemModel>> getPurchaseItemsByPurchaseId(int purchaseId);
-  Future<void> createPurchaseItem(PurchaseInvoiceModel purchase, PurchaseItemModel item);
+  Future<void> createPurchaseItem(PurchaseItemModel item);
   Future<void> updatePurchaseItem(PurchaseItemModel item);
-  Future<void> deletePurchaseItem(PurchaseItemModel item);
-  Future<void> deletePurchaseItemsById(int purchaseId);
+  Future<void> deletePurchaseItem(int id);
+  Future<void> deletePurchaseItemsByInvoiceId(int purchaseId);
 
   Future<List<PaymentModel>> getPaymentsByPurchaseId(int purchaseId);
-  Future<void> createPayment(PurchaseInvoiceModel purchase, PaymentModel payment);
-  Future<void> createPayments(PurchaseInvoiceModel purchase, List<PaymentModel> payments);
+  Future<void> createPayment(PaymentModel payment);
+  Future<void> createPayments(List<PaymentModel> payments);
   Future<void> updatePayment(PaymentModel payment);
-  Future<void> deletePayment(PaymentModel payment);
-  Future<void> deletePaymentsById(int purchaseId);
+  Future<void> deletePayment(int id);
 }
 
 class PurchaseRemoteDataSource implements IPurchaseRemoteDataSource {
@@ -32,7 +31,7 @@ class PurchaseRemoteDataSource implements IPurchaseRemoteDataSource {
   PurchaseRemoteDataSource({required this.dioClient});
 
   @override
-  Future<List<PurchaseInvoiceModel>> getPurchases() async {
+  Future<List<PurchaseInvoiceModel>> getInvoices() async {
     try {
       final Response<dynamic> response = await dioClient.get('/Invoices');
       final List<dynamic> data = response.data;
@@ -43,7 +42,7 @@ class PurchaseRemoteDataSource implements IPurchaseRemoteDataSource {
   }
 
   @override
-  Future<PurchaseInvoiceModel> createPurchase(PurchaseInvoiceModel invoice) async {
+  Future<PurchaseInvoiceModel> createInvoice(Invoice invoice) async {
     try {
       final Response<dynamic> response = await dioClient.post(
         '/Invoices',
@@ -56,7 +55,7 @@ class PurchaseRemoteDataSource implements IPurchaseRemoteDataSource {
   }
 
   @override
-  Future<PurchaseInvoiceModel> updatePurchase(PurchaseInvoiceModel invoice) async {
+  Future<PurchaseInvoiceModel> updateInvoice(Invoice invoice) async {
     try {
       final Response<dynamic> response = await dioClient.put(
         '/Invoices/${invoice.id}',
@@ -99,7 +98,7 @@ class PurchaseRemoteDataSource implements IPurchaseRemoteDataSource {
   }
 
   @override
-  Future<void> createPurchaseItem(PurchaseInvoiceModel purchase, PurchaseItemModel item) async {
+  Future<void> createPurchaseItem(PurchaseItemModel item) async {
     await dioClient.post('/InvoiceLines', data: item.toJson());
   }
 
@@ -109,13 +108,13 @@ class PurchaseRemoteDataSource implements IPurchaseRemoteDataSource {
   }
 
   @override
-  Future<void> deletePurchaseItem(PurchaseItemModel item) async {
-    await dioClient.delete('/InvoiceLines/${item.id}');
+  Future<void> deletePurchaseItem(int id) async {
+    await dioClient.delete('/InvoiceLines/$id');
   }
 
   @override
-  Future<void> deletePurchaseItemsById(int purchaseId) async {
-    // Backend should handle this or we do it line by line
+  Future<void> deletePurchaseItemsByInvoiceId(int purchaseId) async {
+    // Handle implementation or multiple deletes
   }
 
   @override
@@ -125,14 +124,14 @@ class PurchaseRemoteDataSource implements IPurchaseRemoteDataSource {
   }
 
   @override
-  Future<void> createPayment(PurchaseInvoiceModel purchase, PaymentModel payment) async {
+  Future<void> createPayment(PaymentModel payment) async {
     await dioClient.post('/Payments', data: payment.toJson());
   }
 
   @override
-  Future<void> createPayments(PurchaseInvoiceModel purchase, List<PaymentModel> payments) async {
+  Future<void> createPayments(List<PaymentModel> payments) async {
     for (final PaymentModel p in payments) {
-      await createPayment(purchase, p);
+      await createPayment(p);
     }
   }
 
@@ -142,11 +141,7 @@ class PurchaseRemoteDataSource implements IPurchaseRemoteDataSource {
   }
 
   @override
-  Future<void> deletePayment(PaymentModel payment) async {
-    await dioClient.delete('/Payments/${payment.id}');
-  }
-
-  @override
-  Future<void> deletePaymentsById(int purchaseId) async {
+  Future<void> deletePayment(int id) async {
+    await dioClient.delete('/Payments/$id');
   }
 }

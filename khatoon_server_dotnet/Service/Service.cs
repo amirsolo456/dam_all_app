@@ -2,7 +2,7 @@
 using AutoMapper.QueryableExtensions;
 using khatoon_server_dotnet.Data;
 using khatoon_server_dotnet.Model.Interfaces;
-using khatoon_server_dotnet.Model.Interfaces.khatoon_server_dotnet.Model.Interfaces;
+using khatoon_server_dotnet.Model.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;

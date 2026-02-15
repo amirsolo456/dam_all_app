@@ -1,5 +1,5 @@
 ﻿using khatoon_server_dotnet.Model.Interfaces;
-using khatoon_server_dotnet.Model.Interfaces.khatoon_server_dotnet.Model.Interfaces;
+using khatoon_server_dotnet.Model.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -19,7 +19,6 @@ public class Role : IHasId, IHasTimestamps
     [MaxLength(200)]
     public string? Description { get; set; }
 
-    [Column(TypeName = "jsonb")]
     public string? Permissions { get; set; } // لیست مجوزها
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

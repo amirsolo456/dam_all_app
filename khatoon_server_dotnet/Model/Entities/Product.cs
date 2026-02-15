@@ -1,4 +1,4 @@
-﻿using khatoon_server_dotnet.Model.Interfaces.khatoon_server_dotnet.Model.Interfaces;
+﻿using khatoon_server_dotnet.Model.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,6 +12,9 @@ public class Product : IHasId
 
     [Required]
     public string Name { get; set; } = string.Empty;
+
+    public string? Code { get; set; }
+    public string? Description { get; set; }
 
     public string? Unit { get; set; }
 

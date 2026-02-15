@@ -1,0 +1,13 @@
+# .gitignore
+bin/
+obj/
+*.user
+*.lock
+.vs/
+.idea/
+.dart_frog/
+.dart_tool/
+build/
+*.g.dart
+*.freezed.dart
+analyze_output.txt

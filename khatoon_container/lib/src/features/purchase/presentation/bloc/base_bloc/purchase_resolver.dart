@@ -25,13 +25,8 @@ class PurchaseResolver implements MicroApp {
           if (args.pageType == BaseMasterDetailPagesOpenType.form) {
             if (args.pageActionType == PageActionsTypes.edit) {
               try {
-                final List<PurchaseInvoiceModel> invoices = fakeJsonList
-                    .map(
-                      (Map<String, Object> j) =>
-                          PurchaseInvoiceModel.fromJson(j),
-                    )
-                    .toList();
-                return PurchaseEditPage(dataRow: invoices.first);
+                // Should fetch from bloc or service
+                return const PurchaseFormWidget();
               } catch (e) {
                 if (kDebugMode) {
                   print(e.toString());

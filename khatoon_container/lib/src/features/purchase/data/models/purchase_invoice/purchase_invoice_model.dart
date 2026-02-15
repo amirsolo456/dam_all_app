@@ -3,11 +3,7 @@ import 'package:khatoon_container/src/features/purchase/data/models/payment/paym
 import 'package:khatoon_container/src/features/purchase/data/models/purchase_item/purchase_item_model.dart';
 import 'package:khatoon_shared/index.dart';
 
-part 'purchase_invoice_model.g.dart';
-
-@JsonSerializable()
 class PurchaseInvoiceModel extends Invoice {
-  @JsonKey(includeFromJson: false, includeToJson: false)
   bool isSelected = false;
 
   final List<PurchaseItemModel> itemsModel;
@@ -46,9 +42,15 @@ class PurchaseInvoiceModel extends Invoice {
 
     return PurchaseInvoiceModel(
       id: json['id'] as int? ?? 0,
-      createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt'] as String) : DateTime.now(),
-      updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt'] as String) : DateTime.now(),
-      date: json['date'] != null ? DateTime.parse(json['date'] as String) : DateTime.now(),
+      createdAt: json['createdAt'] != null
+        ? (json['createdAt'] is DateTime ? json['createdAt'] as DateTime : DateTime.parse(json['createdAt'] as String))
+        : DateTime.now(),
+      updatedAt: json['updatedAt'] != null
+        ? (json['updatedAt'] is DateTime ? json['updatedAt'] as DateTime : DateTime.parse(json['updatedAt'] as String))
+        : DateTime.now(),
+      date: json['date'] != null
+        ? (json['date'] is DateTime ? json['date'] as DateTime : DateTime.parse(json['date'] as String))
+        : DateTime.now(),
       status: (json['status'] ?? "Open").toString(),
       totalAmount: (json['totalAmount'] as num?)?.toDouble() ?? 0.0,
       itemsModel: items,

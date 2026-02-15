@@ -7,26 +7,28 @@ part of 'person_model.dart';
 // **************************************************************************
 
 PersonModel _$PersonModelFromJson(Map<String, dynamic> json) => PersonModel(
-  (json['id'] as num).toInt(),
-  town: json['town'] as String,
-  street: json['street'] as String,
-  fullAddress: json['fullAddress'] as String,
-  description: json['description'] as String,
+  id: (json['id'] as num).toInt(),
+  type: json['type'] as String,
   name: json['name'] as String,
-  familyName: json['familyName'] as String,
-  phoneNumber: json['phoneNumber'] as String,
-  createDate: (json['createDate'] as num).toInt(),
+  phone: json['phone'] as String?,
+  address: json['address'] as String?,
+  notes: json['notes'] as String?,
+  version: (json['version'] as num).toInt(),
+  isDeleted: json['isDeleted'] as bool,
+  createdAt: DateTime.parse(json['createdAt'] as String),
+  updatedAt: DateTime.parse(json['updatedAt'] as String),
 );
 
 Map<String, dynamic> _$PersonModelToJson(PersonModel instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'type': instance.type,
       'name': instance.name,
-      'familyName': instance.familyName,
-      'phoneNumber': instance.phoneNumber,
-      'town': instance.town,
-      'street': instance.street,
-      'fullAddress': instance.fullAddress,
-      'description': instance.description,
-      'createDate': instance.createDate,
+      'phone': instance.phone,
+      'address': instance.address,
+      'notes': instance.notes,
+      'version': instance.version,
+      'isDeleted': instance.isDeleted,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'updatedAt': instance.updatedAt.toIso8601String(),
     };

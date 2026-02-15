@@ -6,7 +6,7 @@ import 'package:khatoon_container/src/features/persons/domain/repositories/i_per
 
 class PersonDataSource implements IPersonRepository {
   final ApiService apiService;
-  static String personPath = 'person';
+  static String personPath = 'Parties'; // Changed from 'person' to match backend
 
   const PersonDataSource({required this.apiService});
 
@@ -14,38 +14,34 @@ class PersonDataSource implements IPersonRepository {
   Future<void> addPerson(PersonModel person) async {
     await apiService.post(
       personPath,
-      data: person,
-      options: .new(method: 'post'),
+      data: person.toJson(),
     );
   }
 
   @override
-  Future<void> deletePerson(String id) async {
-    final Map<String, String> a = <String, String>{'ID': id};
+  Future<void> deletePerson(int id) async {
     await apiService.delete(
-      personPath,
-      queryParameters: a,
-      options: .new(method: 'delete'),
+      '$personPath/$id',
     );
   }
 
   @override
   Future<List<PersonModel>> getPersons() async {
-    final Response<List<PersonModel>> data = await apiService.get<PersonModel>(
+    final Response<dynamic> response = await apiService.get<dynamic>(
       personPath,
-      options: .new(method: 'get'),
     );
 
-    return data.data!
-        .map((dynamic json) => PersonModel.fromJson(json))
+    final List<dynamic> data = response.data as List<dynamic>;
+    return data
+        .map((dynamic json) => PersonModel.fromJson(json as Map<String, dynamic>))
         .toList();
   }
 
   @override
   Future<void> updatePerson(PersonModel person) async {
-    await apiService.put<PersonModel>(personPath, options: .new(method: 'put'));
+    await apiService.put(
+      '$personPath/${person.id}',
+      data: person.toJson(),
+    );
   }
 }
-
-final String json =
-    '{ PersonModel : [id:0,name:amir,familyName:soleymani,phoneNumber:09109947300,town:zanjan,street:karmandan,fullAddress:zanjan_shahrak karmandan kh 10 west part 183}';

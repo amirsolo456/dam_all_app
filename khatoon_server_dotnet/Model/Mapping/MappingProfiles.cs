@@ -38,6 +38,8 @@ public class MappingProfiles : Profile
         CreateCrudMap<AppEnum, AppEnumDto, CreateAppEnumDto, UpdateAppEnumDto>();
         CreateCrudMap<Bank, BankDto, CreateBankDto, UpdateBankDto>();
         CreateCrudMap<AccountSetting, AccountSettingDto, CreateAccountSettingDto, UpdateAccountSettingDto>();
+        CreateCrudMap<User, UserDto, CreateUserDto, UpdateUserDto>();
+        CreateCrudMap<Role, RoleDto, CreateRoleDto, UpdateRoleDto>();
     }
 
     /// <summary>

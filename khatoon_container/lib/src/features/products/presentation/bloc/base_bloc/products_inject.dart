@@ -16,7 +16,7 @@ class Inject {
 
     if (!sl.isRegistered<AnimalRemoteDataSource>()) {
       sl.lazySingleton<AnimalRemoteDataSource>(
-            () => AnimalRemoteDataSource(dioClient:  sl<Dio>(),baseUrl: ''),
+            () => AnimalRemoteDataSource(dioClient:  sl<Dio>()),
       );
     }
   }

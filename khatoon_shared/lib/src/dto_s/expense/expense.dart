@@ -9,6 +9,11 @@ class Expense {
   final String category;
   final double amount;
   final String? notes;
+  final int? relatedInvoiceId;
+  final int version;
+  final bool isDeleted;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   Expense({
     required this.id,
@@ -16,6 +21,11 @@ class Expense {
     required this.category,
     required this.amount,
     this.notes,
+    this.relatedInvoiceId,
+    required this.version,
+    required this.isDeleted,
+    required this.createdAt,
+    required this.updatedAt,
   });
 
   factory Expense.fromJson(Map<String, dynamic> json) =>

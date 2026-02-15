@@ -6,6 +6,8 @@ part 'product.g.dart';
 class Product {
   final int id;
   final String name;
+  final String? code;
+  final String? description;
   final String? unit;
   final double? defaultPrice;
   final int version;
@@ -16,6 +18,8 @@ class Product {
   Product({
     required this.id,
     required this.name,
+    this.code,
+    this.description,
     this.unit,
     this.defaultPrice,
     required this.version,

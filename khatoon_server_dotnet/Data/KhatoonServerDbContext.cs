@@ -33,6 +33,8 @@ namespace khatoon_server_dotnet.Data
         public DbSet<Bank> Banks { get; set; }
         public DbSet<AccountSetting> AccountSettings { get; set; }
         public DbSet<AppSetting> AppSettings { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -43,11 +45,11 @@ namespace khatoon_server_dotnet.Data
             {
                 var createdAt = entityType.FindProperty("CreatedAt");
                 if (createdAt?.ClrType == typeof(DateTime))
-                    createdAt.SetDefaultValueSql("NOW()");
+                    createdAt.SetDefaultValueSql("GETUTCDATE()");
 
                 var updatedAt = entityType.FindProperty("UpdatedAt");
                 if (updatedAt?.ClrType == typeof(DateTime))
-                    updatedAt.SetDefaultValueSql("NOW()");
+                    updatedAt.SetDefaultValueSql("GETUTCDATE()");
             }
 
             // ---------- Soft Delete Global Filter ----------

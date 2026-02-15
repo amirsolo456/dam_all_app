@@ -12,6 +12,11 @@ Expense _$ExpenseFromJson(Map json) => Expense(
   category: json['category'] as String,
   amount: (json['amount'] as num).toDouble(),
   notes: json['notes'] as String?,
+  relatedInvoiceId: (json['relatedInvoiceId'] as num?)?.toInt(),
+  version: (json['version'] as num).toInt(),
+  isDeleted: json['isDeleted'] as bool,
+  createdAt: DateTime.parse(json['createdAt'] as String),
+  updatedAt: DateTime.parse(json['updatedAt'] as String),
 );
 
 Map<String, dynamic> _$ExpenseToJson(Expense instance) => <String, dynamic>{
@@ -20,4 +25,9 @@ Map<String, dynamic> _$ExpenseToJson(Expense instance) => <String, dynamic>{
   'category': instance.category,
   'amount': instance.amount,
   'notes': instance.notes,
+  'relatedInvoiceId': instance.relatedInvoiceId,
+  'version': instance.version,
+  'isDeleted': instance.isDeleted,
+  'createdAt': instance.createdAt.toIso8601String(),
+  'updatedAt': instance.updatedAt.toIso8601String(),
 };

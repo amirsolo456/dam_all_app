@@ -1,60 +1,78 @@
 import 'package:khatoon_container/src/features/animal/data/data_source/animal_local_datasource.dart';
 import 'package:khatoon_container/src/features/animal/data/data_source/animal_remote_datasource.dart';
+import 'package:khatoon_container/src/features/animal/data/models/animal_model.dart';
 import 'package:khatoon_container/src/features/animal/domain/entities/animal.dart';
 import 'package:khatoon_container/src/features/animal/domain/repositories/i_animal_repository.dart';
-
-// abstract class NetworkInfo {
-//   Future<bool> get isConnected;
-// }
-// class NetworkInfoImpl implements NetworkInfo {
-//   final Connectivity connectivity;
-//
-//   NetworkInfoImpl(this.connectivity);
-//
-//   @override
-//   Future<bool> get isConnected async {
-//     final result = await connectivity.checkConnectivity();
-//     return result != ConnectivityResult.none;
-//   }
-// }
 
 class AnimalRepository implements IAnimalRepository {
   final AnimalRemoteDataSource remote;
   final AnimalLocalDataSource local;
 
-  // final NetworkInfo networkInfo;
-
   AnimalRepository({required this.remote, required this.local});
 
   @override
   Future<Animal> createAnimal(Animal animal) async {
-    // TODO: implement createAnimal
-    throw UnimplementedError();
+    // Convert Animal to AnimalModel if needed
+    final AnimalModel model = AnimalModel(
+      id: animal.id,
+      name: animal.name,
+      tagNumber: animal.tagNumber,
+      breed: animal.breed,
+      type: animal.type,
+      gender: animal.gender,
+      birthDate: animal.birthDate,
+      purchasePrice: animal.purchasePrice,
+      estimatedValue: animal.estimatedValue,
+      purchaseSource: animal.purchaseSource,
+      notes: animal.notes,
+      isActive: animal.isActive,
+      healthStatus: animal.healthStatus,
+      reproductionStatus: animal.reproductionStatus,
+      createdAt: animal.createdAt,
+      updatedAt: animal.updatedAt,
+      isDeleted: animal.isDeleted,
+      version: animal.version,
+    );
+    return await remote.postAnimal(model);
   }
 
   @override
-  Future<void> deleteAnimal(String id) async {
-    // if (await networkInfo.isConnected()) {
-    return remote.deleteAnimal(id);
-    // }
-    // throw NoConnectionException();
+  Future<void> deleteAnimal(int id) async {
+    return await remote.deleteAnimal(id);
   }
 
   @override
-  Future<Animal> getAnimalById(String id) async {
-    // TODO: implement getAnimalById
-    throw UnimplementedError();
+  Future<Animal> getAnimalById(int id) async {
+    return await remote.fetchAnimalById(id);
   }
 
   @override
   Future<List<Animal>> getAnimals({int page = 1, int pageSize = 50}) async {
-    // TODO: implement getAnimals
-    throw UnimplementedError();
+    return await remote.getAnimals(page: page, pageSize: pageSize);
   }
 
   @override
   Future<Animal> updateAnimal(Animal animal) async {
-    // TODO: implement updateAnimal
-    throw UnimplementedError();
+    final AnimalModel model = AnimalModel(
+      id: animal.id,
+      name: animal.name,
+      tagNumber: animal.tagNumber,
+      breed: animal.breed,
+      type: animal.type,
+      gender: animal.gender,
+      birthDate: animal.birthDate,
+      purchasePrice: animal.purchasePrice,
+      estimatedValue: animal.estimatedValue,
+      purchaseSource: animal.purchaseSource,
+      notes: animal.notes,
+      isActive: animal.isActive,
+      healthStatus: animal.healthStatus,
+      reproductionStatus: animal.reproductionStatus,
+      createdAt: animal.createdAt,
+      updatedAt: animal.updatedAt,
+      isDeleted: animal.isDeleted,
+      version: animal.version,
+    );
+    return await remote.putAnimal(model);
   }
 }

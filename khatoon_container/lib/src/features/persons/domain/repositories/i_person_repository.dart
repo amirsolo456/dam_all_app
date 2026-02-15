@@ -6,7 +6,7 @@ abstract class IPersonRepository {
 
   Future<void> addPerson(PersonModel person);
 
-  Future<void> deletePerson(String id);
+  Future<void> deletePerson(int id);
 
   Future<void> updatePerson(PersonModel person);
 }

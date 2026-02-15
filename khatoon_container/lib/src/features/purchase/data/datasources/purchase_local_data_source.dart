@@ -245,6 +245,8 @@ class PurchaseLocalDataSource implements IPurchaseLocalDataSource {
             partyId: invoice.partyId,
             isDeleted: invoice. isDeleted,
             updatedAt: invoice.updatedAt  ,
+            date: invoice.date,
+            version: invoice.version,
           );
 
           await updateInvoice(updatedInvoice);
@@ -303,6 +305,8 @@ class PurchaseLocalDataSource implements IPurchaseLocalDataSource {
 
             isDeleted: invoice.isDeleted,
             updatedAt: invoice.updatedAt,
+            date: invoice.date,
+            version: invoice.version,
           );
 
           await updateInvoice(updatedInvoice);

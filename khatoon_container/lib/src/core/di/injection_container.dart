@@ -18,6 +18,10 @@ import 'package:khatoon_container/src/features/purchase/data/datasources/purchas
 import 'package:khatoon_container/src/features/purchase/data/repositories/purchase_repository.dart';
 import 'package:khatoon_container/src/features/purchase/domain/repositories/i_purchase_repository.dart';
 import 'package:khatoon_container/src/features/purchase/domain/usecases/purchase_usecase.dart';
+import 'package:khatoon_container/src/features/products/domain/repositories/i_product_repository.dart';
+import 'package:khatoon_container/src/features/products/data/repositories/product_repository.dart';
+import 'package:khatoon_container/src/features/products/data/datasources/product_remote_data_source.dart';
+import 'package:khatoon_container/src/features/products/domain/usecases/product_usecase.dart';
 
 // ... سایر usecase ها
 import 'package:khatoon_container/src/features/purchase/presentation/bloc/purchase_bloc.dart';
@@ -86,6 +90,10 @@ class InjectionContainer {
     );
 
     // ====================== Data Sources ======================
+    sl.lazySingleton<IProductRemoteDataSource>(
+       () => ProductRemoteDataSource(sl<Dio>()),
+    );
+
     sl.lazySingleton<PurchaseRemoteDataSource>(
        () => PurchaseRemoteDataSource(dioClient: sl<Dio>()),
     );
@@ -99,6 +107,10 @@ class InjectionContainer {
           () => PurchaseRepository(
         remoteDataSource: sl<PurchaseRemoteDataSource>(),
       ),
+    );
+
+    sl.lazySingleton<IProductRepository>(
+      () => ProductRepository(sl<IProductRemoteDataSource>()),
     );
 
     // ======================Purchase Use Cases ======================
@@ -148,6 +160,10 @@ class InjectionContainer {
 
     sl.lazySingleton<CreatePaymentsUseCase>(
           () => CreatePaymentsUseCase(repository: sl<PurchaseRemoteDataSource>()),
+    );
+
+    sl.lazySingleton<CreateProductUseCase>(
+      () => CreateProductUseCase(repository: sl<IProductRepository>()),
     );
 
     // ====================== Bloc ======================

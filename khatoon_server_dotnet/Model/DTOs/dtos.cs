@@ -1,6 +1,6 @@
 ﻿// File: Dtos/AllDtos.cs
 using khatoon_server_dotnet.Model.Interfaces;
-using khatoon_server_dotnet.Model.Interfaces.khatoon_server_dotnet.Model.Interfaces;
+using khatoon_server_dotnet.Model.Interfaces;
 using System;
 using System.Collections.Generic;
 
@@ -66,6 +66,8 @@ namespace khatoon_server_dotnet.Model.DTOs
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
+        public string? Code { get; set; }
+        public string? Description { get; set; }
         public string? Unit { get; set; }
         public float? DefaultPrice { get; set; }
         public int Version { get; set; }
@@ -143,6 +145,7 @@ namespace khatoon_server_dotnet.Model.DTOs
         public string Category { get; set; } = string.Empty;
         public float Amount { get; set; }
         public string? Notes { get; set; }
+        public int? RelatedInvoiceId { get; set; }
         public int Version { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -153,8 +156,11 @@ namespace khatoon_server_dotnet.Model.DTOs
     {
         public int Id { get; set; }
         public int EmployeeId { get; set; }
-        public float Amount { get; set; }
-        public DateTime Date { get; set; }
+        public decimal AmountPaid { get; set; }
+        public DateTime? DatePaid { get; set; }
+        public DateTime PeriodStart { get; set; }
+        public DateTime PeriodEnd { get; set; }
+        public string? Notes { get; set; }
         public int Version { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -166,8 +172,8 @@ namespace khatoon_server_dotnet.Model.DTOs
         public int Id { get; set; }
         public int EmployeeId { get; set; }
         public int InvoiceId { get; set; }
-        public float CommissionAmount { get; set; }
-        public DateTime Date { get; set; }
+        public decimal CalculatedAmount { get; set; }
+        public decimal PaidAmount { get; set; }
         public int Version { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -299,6 +305,69 @@ namespace khatoon_server_dotnet.Model.DTOs
         public DateTime UpdatedAt { get; set; }
     }
 
+    // ================ User ================
+    public class UserDto : IHasId
+    {
+        public int Id { get; set; }
+        public string Username { get; set; } = string.Empty;
+        public string? FullName { get; set; }
+        public string? Mobile { get; set; }
+        public string? Email { get; set; }
+        public bool IsActive { get; set; }
+        public DateTime? LastLoginAt { get; set; }
+        public string? Role { get; set; }
+        public string? Permissions { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+    }
+
+    public class CreateUserDto
+    {
+        public string Username { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
+        public string? FullName { get; set; }
+        public string? Mobile { get; set; }
+        public string? Email { get; set; }
+        public string? Role { get; set; }
+        public string? Permissions { get; set; }
+    }
+
+    public class UpdateUserDto
+    {
+        public string? Username { get; set; }
+        public string? Password { get; set; }
+        public string? FullName { get; set; }
+        public string? Mobile { get; set; }
+        public string? Email { get; set; }
+        public bool? IsActive { get; set; }
+        public string? Role { get; set; }
+        public string? Permissions { get; set; }
+    }
+
+    // ================ Role ================
+    public class RoleDto : IHasId
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string? Description { get; set; }
+        public string? Permissions { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
+    }
+
+    public class CreateRoleDto
+    {
+        public string Name { get; set; } = string.Empty;
+        public string? Description { get; set; }
+        public string? Permissions { get; set; }
+    }
+
+    public class UpdateRoleDto
+    {
+        public string? Name { get; set; }
+        public string? Description { get; set; }
+        public string? Permissions { get; set; }
+    }
 
     // ================ Party ================
     // ================ Animal ================
@@ -416,6 +485,8 @@ namespace khatoon_server_dotnet.Model.DTOs
     public class CreateProductDto
     {
         public string Name { get; set; } = string.Empty;
+        public string? Code { get; set; }
+        public string? Description { get; set; }
         public string? Unit { get; set; }
         public decimal? DefaultPrice { get; set; }
     }
@@ -423,6 +494,8 @@ namespace khatoon_server_dotnet.Model.DTOs
     public class UpdateProductDto
     {
         public string? Name { get; set; }
+        public string? Code { get; set; }
+        public string? Description { get; set; }
         public string? Unit { get; set; }
         public decimal? DefaultPrice { get; set; }
     }

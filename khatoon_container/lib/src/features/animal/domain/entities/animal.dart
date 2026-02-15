@@ -72,7 +72,9 @@ class Animal extends Equatable {
   final String? microchipNumber;  // شماره میکروچیپ
   final String? rfidTag;          // تگ RFID
   final DateTime createdAt;
-  final DateTime? updatedAt;
+  final DateTime updatedAt;
+  final bool isDeleted;
+  final int version;
   final bool isActive;
   final String? createdBy;
   final String? lastModifiedBy;
@@ -122,7 +124,9 @@ class Animal extends Equatable {
     this.microchipNumber,
     this.rfidTag,
        required this.createdAt  ,
-    this.updatedAt,
+    required this.updatedAt,
+    required this.isDeleted,
+    required this.version,
     required this.isActive,
     this.createdBy,
     this.lastModifiedBy, this.strip,
@@ -195,7 +199,7 @@ class Animal extends Equatable {
   ];
 
   Animal copyWith({
-    String? id,
+    int? id,
     String? tagNumber,
     String? name,
     AnimalType? type,
@@ -240,6 +244,8 @@ class Animal extends Equatable {
     String? rfidTag,
     DateTime? createdAt,
     DateTime? updatedAt,
+    bool? isDeleted,
+    int? version,
     bool? isActive,
     String? createdBy,
     String? lastModifiedBy,
@@ -290,6 +296,8 @@ class Animal extends Equatable {
       rfidTag: rfidTag ?? this.rfidTag,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      isDeleted: isDeleted ?? this.isDeleted,
+      version: version ?? this.version,
       isActive: isActive ?? this.isActive,
       createdBy: createdBy ?? this.createdBy,
       lastModifiedBy: lastModifiedBy ?? this.lastModifiedBy,
