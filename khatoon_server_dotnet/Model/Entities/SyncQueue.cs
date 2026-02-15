@@ -27,7 +27,6 @@ public class SyncQueue : IHasId, IHasTimestamps
     public string Operation { get; set; } = string.Empty; // INSERT, UPDATE, DELETE
 
     [Required]
-    [Column(TypeName = "jsonb")]
     public string Payload { get; set; } = string.Empty; // دیتای کامل موجودیت به صورت JSON
 
     [Required]
