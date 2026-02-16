@@ -4,14 +4,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:khatoon_container/index.dart';
 
-// Core
+// Core Services
 import 'package:khatoon_container/src/core/storage/services/api_service.dart';
 
 // Features - App Shortcuts
 import 'package:khatoon_container/src/features/app_shortcuts/data/respositories/shortcuts_repository.dart';
 import 'package:khatoon_container/src/features/app_shortcuts/domain/entities/shortcut.dart';
 
-// Features - Persons
+// Features - Persons (Parties)
 import 'package:khatoon_container/src/features/persons/data/data_sources/person_data_source.dart';
 import 'package:khatoon_container/src/features/persons/domain/repositories/i_person_repository.dart';
 import 'package:khatoon_container/src/features/persons/domain/usecases/person_usecase.dart';
@@ -28,7 +28,7 @@ import 'package:khatoon_container/src/features/products/data/repositories/produc
 import 'package:khatoon_container/src/features/products/domain/repositories/i_product_repository.dart';
 import 'package:khatoon_container/src/features/products/domain/usecases/product_usecase.dart';
 
-// Features - Purchase
+// Features - Purchase (Invoices & Payments)
 import 'package:khatoon_container/src/features/purchase/data/datasources/purchase_local_data_source.dart';
 import 'package:khatoon_container/src/features/purchase/data/datasources/purchase_remote_data_source.dart';
 import 'package:khatoon_container/src/features/purchase/data/repositories/purchase_repository.dart';
@@ -39,7 +39,7 @@ import 'package:khatoon_container/src/features/purchase/domain/usecases/purchase
 import 'package:khatoon_container/src/features/purchase/presentation/bloc/purchase_bloc.dart';
 import 'package:khatoon_container/src/features/purchase/presentation/widgets/purchase_list/bloc/purchase_list_bloc.dart';
 
-// Features - User
+// Features - User & Auth
 import 'package:khatoon_container/src/features/user/data/data_sources/user_local_data_source.dart';
 import 'package:khatoon_container/src/features/user/data/data_sources/user_remote_datasource.dart';
 
@@ -47,11 +47,11 @@ final GetIt sl = GetIt.instance;
 
 class InjectionContainer {
   static Future<void> init() async {
-    // ====================== External ======================
+    // ====================== 1. External & Core ======================
+
     final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
 
-    // Dio
     sl.registerLazySingleton<Dio>(
       () => Dio(
         BaseOptions(
@@ -68,86 +68,88 @@ class InjectionContainer {
         ),
     );
 
-    // ====================== Core ======================
     sl.registerLazySingleton<ApiService>(() => ApiService());
     sl.registerLazySingleton<AppNotifier>(() => AppNotifier());
     sl.registerLazySingleton<ShortcutService>(() => ShortcutService());
     sl<ShortcutService>().registerHandler((Shortcut k) => k);
 
-    // ====================== Data Sources ======================
-    // Persons
+    // ====================== 2. Data Sources ======================
+
     sl.registerLazySingleton<PersonDataSource>(
       () => PersonDataSource(apiService: sl<ApiService>()),
     );
 
-    // Animal
     sl.registerLazySingleton<AnimalLocalDataSource>(
       () => AnimalLocalDataSource(prefs: sl<SharedPreferences>()),
     );
-    sl.registerLazySingleton<AnimalRemoteDataSource>(
+    sl.registerLazySingleton<IAnimalRemoteDataSource>(
       () => AnimalRemoteDataSource(dioClient: sl<Dio>()),
     );
 
-    // Products
     sl.registerLazySingleton<IProductRemoteDataSource>(
       () => ProductRemoteDataSource(sl<Dio>()),
     );
 
-    // Purchase
-    sl.registerLazySingleton<PurchaseRemoteDataSource>(
+    sl.registerLazySingleton<IPurchaseRemoteDataSource>(
       () => PurchaseRemoteDataSource(dioClient: sl<Dio>()),
     );
     sl.registerLazySingleton<PurchaseLocalDataSource>(
       () => PurchaseLocalDataSource(sharedPreferences: sl<SharedPreferences>()),
     );
 
-    // User
     sl.registerLazySingleton<UserLocalDataSource>(() => UserLocalDataSource());
     sl.registerLazySingleton<UserRemoteDataSource>(() => UserRemoteDataSource(sl<ApiService>()));
 
-    // ====================== Repositories ======================
+    // ====================== 3. Repositories ======================
+
     sl.registerLazySingleton<IPersonRepository>(() => sl<PersonDataSource>());
+
     sl.registerLazySingleton<IAnimalRepository>(
-      () => AnimalRepository(remote: sl<AnimalRemoteDataSource>(), local: sl<AnimalLocalDataSource>()),
+      () => AnimalRepository(
+        remote: sl<IAnimalRemoteDataSource>() as AnimalRemoteDataSource,
+        local: sl<AnimalLocalDataSource>(),
+      ),
     );
+
     sl.registerLazySingleton<IProductRepository>(
       () => ProductRepository(sl<IProductRemoteDataSource>()),
     );
+
     sl.registerLazySingleton<IPurchaseRepository>(
-      () => PurchaseRepository(remoteDataSource: sl<PurchaseRemoteDataSource>()),
+      () => PurchaseRepository(
+        remoteDataSource: sl<IPurchaseRemoteDataSource>() as PurchaseRemoteDataSource,
+      ),
     );
 
-    // ====================== Use Cases ======================
-    // Persons
+    // ====================== 4. Use Cases ======================
+
     sl.registerLazySingleton(() => GetPersonUseCase(personDataSource: sl<PersonDataSource>()));
     sl.registerLazySingleton(() => UpdatePersonUseCase(personDataSource: sl<PersonDataSource>()));
     sl.registerLazySingleton(() => DeletePersonUseCase(personDataSource: sl<PersonDataSource>()));
     sl.registerLazySingleton(() => InsertPersonUseCase(personDataSource: sl<PersonDataSource>()));
 
-    // Products
     sl.registerLazySingleton(() => CreateProductUseCase(repository: sl<IProductRepository>()));
 
-    // Purchase
-    sl.registerLazySingleton(() => GetPurchasesUseCase(repository: sl<PurchaseRemoteDataSource>()));
-    sl.registerLazySingleton(() => GetPurchasesByIdUseCase(repository: sl<PurchaseRemoteDataSource>()));
-    sl.registerLazySingleton(() => CreatePurchaseUseCase(repository: sl<PurchaseRemoteDataSource>()));
-    sl.registerLazySingleton(() => UpdatePurchaseUseCase(repository: sl<PurchaseRemoteDataSource>()));
-    sl.registerLazySingleton(() => DeletePurchaseUseCase(repository: sl<PurchaseRemoteDataSource>()));
+    sl.registerLazySingleton(() => GetPurchasesUseCase(repository: sl<IPurchaseRemoteDataSource>() as PurchaseRemoteDataSource));
+    sl.registerLazySingleton(() => GetPurchasesByIdUseCase(repository: sl<IPurchaseRemoteDataSource>() as PurchaseRemoteDataSource));
+    sl.registerLazySingleton(() => CreatePurchaseUseCase(repository: sl<IPurchaseRemoteDataSource>() as PurchaseRemoteDataSource));
+    sl.registerLazySingleton(() => UpdatePurchaseUseCase(repository: sl<IPurchaseRemoteDataSource>() as PurchaseRemoteDataSource));
+    sl.registerLazySingleton(() => DeletePurchaseUseCase(repository: sl<IPurchaseRemoteDataSource>() as PurchaseRemoteDataSource));
 
-    sl.registerLazySingleton(() => GetPaymentsByInvoiceIdUseCase(repository: sl<PurchaseRemoteDataSource>()));
-    sl.registerLazySingleton(() => UpdatePaymentUseCase(repository: sl<PurchaseRemoteDataSource>()));
-    sl.registerLazySingleton(() => DeletePaymentUseCase(repository: sl<PurchaseRemoteDataSource>()));
-    sl.registerLazySingleton(() => DeletePaymentsByIdUseCase(repository: sl<PurchaseRemoteDataSource>()));
-    sl.registerLazySingleton(() => CreatePaymentUseCase(repository: sl<PurchaseRemoteDataSource>()));
-    sl.registerLazySingleton(() => CreatePaymentsUseCase(repository: sl<PurchaseRemoteDataSource>()));
+    sl.registerLazySingleton(() => GetPaymentsByInvoiceIdUseCase(repository: sl<IPurchaseRemoteDataSource>() as PurchaseRemoteDataSource));
+    sl.registerLazySingleton(() => UpdatePaymentUseCase(repository: sl<IPurchaseRemoteDataSource>() as PurchaseRemoteDataSource));
+    sl.registerLazySingleton(() => DeletePaymentUseCase(repository: sl<IPurchaseRemoteDataSource>() as PurchaseRemoteDataSource));
+    sl.registerLazySingleton(() => DeletePaymentsByIdUseCase(repository: sl<IPurchaseRemoteDataSource>() as PurchaseRemoteDataSource));
+    sl.registerLazySingleton(() => CreatePaymentUseCase(repository: sl<IPurchaseRemoteDataSource>() as PurchaseRemoteDataSource));
+    sl.registerLazySingleton(() => CreatePaymentsUseCase(repository: sl<IPurchaseRemoteDataSource>() as PurchaseRemoteDataSource));
 
-    // Purchase Items
-    sl.registerLazySingleton(() => GetPurchasesItemsByPurchaseIdUseCase(repository: sl<PurchaseRemoteDataSource>()));
-    sl.registerLazySingleton(() => CreatePurchaseItemUseCase(repository: sl<PurchaseRemoteDataSource>()));
-    sl.registerLazySingleton(() => UpdatePurchaseItemUseCase(repository: sl<PurchaseRemoteDataSource>()));
-    sl.registerLazySingleton(() => DeletePurchaseItemByIdUseCase(repository: sl<PurchaseRemoteDataSource>()));
+    sl.registerLazySingleton(() => GetPurchasesItemsByPurchaseIdUseCase(repository: sl<IPurchaseRemoteDataSource>() as PurchaseRemoteDataSource));
+    sl.registerLazySingleton(() => CreatePurchaseItemUseCase(repository: sl<IPurchaseRemoteDataSource>() as PurchaseRemoteDataSource));
+    sl.registerLazySingleton(() => UpdatePurchaseItemUseCase(repository: sl<IPurchaseRemoteDataSource>() as PurchaseRemoteDataSource));
+    sl.registerLazySingleton(() => DeletePurchaseItemByIdUseCase(repository: sl<IPurchaseRemoteDataSource>() as PurchaseRemoteDataSource));
 
-    // ====================== BLoCs ======================
+    // ====================== 5. BLoCs ======================
+
     sl.registerFactory(
       () => PurchaseListBloc(
         getPurchasesUseCase: sl<GetPurchasesUseCase>(),
@@ -174,11 +176,10 @@ class InjectionContainer {
       ),
     );
 
-    // Initializations
     try {
       await sl<AppNotifier>().initialize();
     } catch (e) {
-      // Handle initialization error
+      // Ignore initialization errors
     }
   }
 }
