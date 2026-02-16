@@ -9,13 +9,13 @@ class Inject {
   static void initialize() {
     // sl.registerFactory(() => const SignInPage());
     if (!sl.isRegistered<AnimalLocalDataSource>()) {
-      sl.lazySingleton<AnimalLocalDataSource>(
+      sl.registerLazySingleton<AnimalLocalDataSource>(
             () => AnimalLocalDataSource(prefs: sl<SharedPreferences>()),
       );
     }
 
     if (!sl.isRegistered<AnimalRemoteDataSource>()) {
-      sl.lazySingleton<AnimalRemoteDataSource>(
+      sl.registerLazySingleton<AnimalRemoteDataSource>(
             () => AnimalRemoteDataSource(dioClient:  sl<Dio>()),
       );
     }

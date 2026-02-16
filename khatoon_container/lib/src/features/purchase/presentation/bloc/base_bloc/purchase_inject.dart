@@ -10,81 +10,81 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Inject {
   static void initialize() {
     if (!sl.isRegistered<PurchaseCustomActionsDataSource>()) {
-      sl.lazySingleton<PurchaseCustomActionsDataSource>(
+      sl.registerLazySingleton<PurchaseCustomActionsDataSource>(
         () => PurchaseCustomActionsDataSource(),
       );
 
-      sl.lazySingleton<GetPurchaseMoreActionsUseCase>(
+      sl.registerLazySingleton<GetPurchaseMoreActionsUseCase>(
         () => GetPurchaseMoreActionsUseCase(
           purchaseCustomActionsDataSource:
               sl<PurchaseCustomActionsDataSource>(),
         ),
       );
 
-      sl.lazySingleton<GetPurchaseInvoiceTypesUseCase>(
+      sl.registerLazySingleton<GetPurchaseInvoiceTypesUseCase>(
         () => GetPurchaseInvoiceTypesUseCase(
           purchaseCustomActionsDataSource:
               sl<PurchaseCustomActionsDataSource>(),
         ),
       );
 
-      sl.lazySingleton<GetPurchaseMainActionsUseCase>(
+      sl.registerLazySingleton<GetPurchaseMainActionsUseCase>(
         () => GetPurchaseMainActionsUseCase(
           purchaseCustomActionsDataSource:
               sl<PurchaseCustomActionsDataSource>(),
         ),
       );
 
-      sl.lazySingleton<PurchaseRemoteDataSource>(
+      sl.registerLazySingleton<PurchaseRemoteDataSource>(
         () => PurchaseRemoteDataSource(dioClient: sl<Dio>()),
       );
 
-      sl.lazySingleton<PurchaseLocalDataSource>(
+      sl.registerLazySingleton<PurchaseLocalDataSource>(
         () =>
             PurchaseLocalDataSource(sharedPreferences: sl<SharedPreferences>()),
       );
 
-      sl.lazySingleton<GetPurchasesUseCase>(
+      sl.registerLazySingleton<GetPurchasesUseCase>(
         () => GetPurchasesUseCase(repository: sl<PurchaseRemoteDataSource>()),
       );
 
-      sl.lazySingleton<GetPurchasesByIdUseCase>(
+      sl.registerLazySingleton<GetPurchasesByIdUseCase>(
         () =>
             GetPurchasesByIdUseCase(repository: sl<PurchaseRemoteDataSource>()),
       );
 
-      sl.lazySingleton<GetPurchasesItemsByPurchaseIdUseCase>(
+      sl.registerLazySingleton<GetPurchasesItemsByPurchaseIdUseCase>(
         () => GetPurchasesItemsByPurchaseIdUseCase(
           repository: sl<PurchaseRemoteDataSource>(),
         ),
       );
 
-      sl.lazySingleton<UpdatePurchaseUseCase>(
+      sl.registerLazySingleton<UpdatePurchaseUseCase>(
         () => UpdatePurchaseUseCase(repository: sl<PurchaseRemoteDataSource>()),
       );
 
-      sl.lazySingleton<UpdatePurchaseItemUseCase>(
+      sl.registerLazySingleton<UpdatePurchaseItemUseCase>(
         () => UpdatePurchaseItemUseCase(
           repository: sl<PurchaseRemoteDataSource>(),
         ),
       );
 
-      sl.lazySingleton<DeletePurchaseUseCase>(
+      sl.registerLazySingleton<DeletePurchaseUseCase>(
         () => DeletePurchaseUseCase(repository: sl<PurchaseRemoteDataSource>()),
       );
 
-      sl.lazySingleton<DeletePurchaseItemByIdUseCase>(
+      sl.registerLazySingleton<DeletePurchaseItemByIdUseCase>(
         () => DeletePurchaseItemByIdUseCase(
           repository: sl<PurchaseRemoteDataSource>(),
         ),
       );
 
 
-      sl.lazySingleton<CreatePurchaseUseCase>(
+      sl.registerLazySingleton<CreatePurchaseUseCase>(
         () => CreatePurchaseUseCase(repository: sl<PurchaseRemoteDataSource>()),
       );
 
-      sl.lazySingleton<CreatePurchaseItemUseCase>(
+      sl.registerLazySingleton<CreatePurchaseItemUseCase>(
         () => CreatePurchaseItemUseCase(
           repository: sl<PurchaseRemoteDataSource>(),
         ),
